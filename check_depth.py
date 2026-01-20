@@ -1,27 +1,34 @@
 # Check Blender raw depth values approximately align with the expected depth measured in Blender
 
+# --- INPUTS ---
+# External files: Raw depth and raw image files in demos/depth_check/inputs folder 
+# Variables: File path names and query pixel
+
+# --- OUTPUTS ---
+# Depth at query pixel (printed to terminal)
+# Raw image with query pixel indicated (red circle)
+
 # --- RUN INSTRUCTIONS --- 
-# Run file in VS Code
-# Can change file path names, dot radius and query pixel
-# Outputs saved image
+# Run in VS Code or python3 check_depth.py in terminal
 
 # --- TO DO ---
-# Working with .exr, try again with .tif? 
-# Change to just use raw depth and not normalised? 
+# Replace input files 
 
+
+# Import libraries
 import cv2
 import numpy as np
 
 # Define input/output image filepaths
-raw_depth_path = "datasets/demo/depth_check/input/raw depth0001_L.exr"  # "raw depth0001_L.exr"                  # Raw EXR depth for depth value
-normalized_depth_path = "datasets/demo/depth_check/input/normalized depth0001_L.tif"  # "normalized depth0001_L.tif"    # Normalised depth just to draw on (easier to see then raw depth)
-output_image = "datasets/demo/depth_check/output/normalized_depth_with_marker.png"       # Output image name 
+raw_depth_path = "demos/depth_check/input/raw depth0001_L.exr"            # Raw EXR depth for depth value
+raw_image_path = "demos/depth_check/input/raw image0001_L.jpg"            # Raw image for visualising query pixel
+output_image = "demos/depth_check/output/raw_image_with_marker.jpg"       # Output image name 
 
 # Define query pixel (x, y)
-# check_pixel = (505, 255)                       # Front left middle pole
-check_pixel = (450, 215)                         # Back left middle pole
+check_pixel = (505, 255)                       # Front left middle pole
+# check_pixel = (450, 215)                         # Back left middle pole
 
-# Load in raw depth image
+# Load in raw depth image - IMREAD_UNCHANGED to preserve raw depth details
 raw_depth = cv2.imread(raw_depth_path, cv2.IMREAD_UNCHANGED)
 if raw_depth is None:
     raise RuntimeError(f"Could not read raw depth file: {raw_depth_path}")
@@ -38,103 +45,22 @@ if not (0 <= x < w and 0 <= y < h):
 
 # Extract depth value at that query pixel 
 depth_value = raw_depth[y, x]
-print(f"Depth at pixel {check_pixel} from raw EXR depth: {depth_value}")
+print(f"Depth at pixel {check_pixel} from raw EXR depth: {depth_value}m")
 
+# Load in raw image (for visualisation)
+raw_image = cv2.imread(raw_image_path)
+# raw_image = cv2.cvtColor(cv2.imread(raw_image_path), cv2.COLOR_BGR2RGB)
 
-# Load in normalised depth image 
-norm_img = cv2.imread(normalized_depth_path, cv2.IMREAD_UNCHANGED)
-if norm_img is None:
-    raise RuntimeError(f"Could not read normalized depth image: {normalized_depth_path}")
-
-# Convert normalised depth to BGR (if single channel)
-if norm_img.ndim == 2:
-    norm_img = cv2.cvtColor(norm_img, cv2.COLOR_GRAY2BGR)
-
-# Draw red dot for query pixel onto normalised depth image
+# Draw circle and fill
 dot_radius = 6
 cv2.circle(
-    norm_img,
+    raw_image,
     (x, y),
     dot_radius,
-    (0, 0, 255),  # red in BGR
-    -1
+    (0, 0, 255),  # red
+    -1            # fill in circle
 )
 
-# Save the normalised depth image with query pixel drawn on 
-cv2.imwrite(output_image, norm_img)
-print(f"Saved annotated normalized depth image to: {output_image}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # FOR .TIF BUT DEPTHVALUE FROM PIXELS WERE WRONG
-# import cv2
-# import numpy as np
-# import os
-
-# # -----------------------------
-# # CONFIG
-# # -----------------------------
-# depth_path = "raw depth0001_L.tif"        # relative path
-# check_pixel = (505, 255)                 # (x, y)
-# dot_radius = 3
-
-# output_image = "raw_depth_with_marker.png"
-
-# # -----------------------------
-# # LOAD DEPTH IMAGE
-# # -----------------------------
-# depth = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
-
-# if depth is None:
-#     raise RuntimeError(f"Could not read depth file: {depth_path}")
-
-# depth = depth.astype(np.float32)
-
-# # -----------------------------
-# # NORMALIZE FOR DISPLAY
-# # -----------------------------
-# depth_vis = cv2.normalize(
-#     depth, None, 0, 255, cv2.NORM_MINMAX
-# ).astype(np.uint8)
-
-# depth_vis = cv2.cvtColor(depth_vis, cv2.COLOR_GRAY2BGR)
-
-# # -----------------------------
-# # DRAW RED DOT
-# # -----------------------------
-# x, y = check_pixel
-# h, w = depth_vis.shape[:2]
-
-# if not (0 <= x < w and 0 <= y < h):
-#     raise RuntimeError(f"Pixel {check_pixel} out of bounds ({w}x{h})")
-
-# cv2.circle(
-#     depth_vis,
-#     (x, y),
-#     dot_radius,
-#     (0, 0, 255),   # red
-#     -1
-# )
-
-# # -----------------------------
-# # PRINT DEPTH VALUE
-# # -----------------------------
-# depth_value = depth[y, x]
-# print(f"Depth value at pixel {check_pixel}: {depth_value}")
-
-# # -----------------------------
-# # SAVE IMAGE
-# # -----------------------------
-# cv2.imwrite(output_image, depth_vis)
-# print(f"Saved annotated image to: {output_image}")
-
+# Save image to output folder 
+cv2.imwrite(output_image, raw_image)
+print(f"Saved annotated raw image to: {output_image}")

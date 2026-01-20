@@ -22,11 +22,21 @@ Any version >= 4.3 is compatible (for the water conditions). Verify version with
 TODO: Check about ShapeNet - have to link the repo? Recommend making an accout in Installation?  -->
 
 
+
+<!-- ### FIRST: Configuring Output Path -->
+
+<!-- Have to change in scripts and also in blender file, add in screenshots 
+suggest not saving into repo for size constraints, depending on size can upload/backup into hugging face (up to 100GB)
+-->
+
+
 ## Repo Organisation 
+
+<!-- move blender scenes into hugging face?? depends how big the file ends up being  -->
 
 | Folder          | Description                                                                                                     |
 |-----------------|-----------------------------------------------------------------------------------------------------------------|
-| blender_scenes  | Blender files for underwater environments                                                                 |
+| blender_scenes  | Blender files for underwater environments                                                                       |
 | ShapeNet TODO   | Everyday object models to use in underwater scenes from ShapeNet/Link to ShapeNet repo TODO                     |
 | scripts/blender | Python scripts to run blender processes automated and in the background e.g. changing configurations, rendering |
 | scripts/misc    | Other miscellaneous but relevant python scripts                                                                 |
@@ -35,6 +45,7 @@ TODO: Check about ShapeNet - have to link the repo? Recommend making an accout i
 <!-- Table generated with: https://www.tablesgenerator.com/markdown_tables# -->
 
 <!-- TODO: Link to Hugging Face for demo results? Or add in a suggestion to use that?  -->
+
 
 
 ## Dataset Characteristics
@@ -96,6 +107,17 @@ In total, there will be INSERT NUMBER of raw image and raw depth pairs.
 
 ## How to Use 
 
+<!-- ### FIRST: Configuring Output Path
+
+Have to change in scripts and also in blender file, add in screenshots 
+
+or a note on making sure you have done this previously 
+suggest not saving into repo for size constraints, depending on size can upload/backup into hugging face (up to 100GB)
+
+-->
+
+
+
 ### Generate Dataset  
 <!-- Script to run automated dataset process
 - Note how number of frames can be adjusted
@@ -103,11 +125,13 @@ In total, there will be INSERT NUMBER of raw image and raw depth pairs.
 - Check if they want a full combinatorics nested for loops -->
 
 
-### Render Single Animation 
+### Render Animation 
 
+<!-- emphasis single animation  -->
 
 ### Render Single Image 
 <!-- - provide script or just set num of frames to 1 -->
+<!-- emphasis single animation  -->
 
 
 ### Converting Images to Video
@@ -140,6 +164,7 @@ use things as inspiration, copy from a base and build/experiment from there  -->
 
 ## Contact: 
 <otur3695@uni.sydney.edu.au>
+
 Oliver Turner (UG student at USYD, finishing Sem 2 2026)
 
 

@@ -1,3 +1,6 @@
+# TO VERIFY 
+
+
 # Save rendered animation images as a video
 # For stereo view - saves left and right images 
 # Does raw image, raw depth and normalised depth 

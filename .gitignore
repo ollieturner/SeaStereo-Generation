@@ -1,3 +1,5 @@
+# Auto-generated python .gitignore from GitHub
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

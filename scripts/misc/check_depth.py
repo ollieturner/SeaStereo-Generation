@@ -1,4 +1,5 @@
-# Check Blender raw depth values approximately align with the expected depth measured in Blender
+# Output Blender raw depth value at query pixel
+# Used to check if they approximately/qualitatively align with the expected depth measured in Blender (with ruler tool)
 
 # --- INPUTS ---
 # External files: Raw depth and raw image files in demos/depth_check/inputs folder 
@@ -9,7 +10,7 @@
 # Raw image with query pixel indicated (red circle)
 
 # --- RUN INSTRUCTIONS --- 
-# Run in VS Code or python3 check_depth.py in terminal
+# python3 scripts/misc/check_depth.py from the repo root 
 
 # --- TO DO ---
 # Replace input files 
@@ -20,13 +21,13 @@ import cv2
 import numpy as np
 
 # Define input/output image filepaths
-raw_depth_path = "demos/depth_check/input/raw depth0001_L.exr"            # Raw EXR depth for depth value
-raw_image_path = "demos/depth_check/input/raw image0001_L.jpg"            # Raw image for visualising query pixel
-output_image = "demos/depth_check/output/raw_image_with_marker.jpg"       # Output image name 
+raw_depth_path = "demos/check_depth/input/raw depth0001_L.exr"                    # Raw EXR depth for depth value
+raw_image_path = "demos/check_depth/input/raw image0001_L.jpg"                    # Raw image for visualising query pixel
+output_image = "demos/check_depth/output/raw_image_with_marker.jpg"               # Output image name 
 
 # Define query pixel (x, y)
 check_pixel = (505, 255)                       # Front left middle pole
-# check_pixel = (450, 215)                         # Back left middle pole
+# check_pixel = (450, 215)                       # Back left middle pole
 
 # Load in raw depth image - IMREAD_UNCHANGED to preserve raw depth details
 raw_depth = cv2.imread(raw_depth_path, cv2.IMREAD_UNCHANGED)

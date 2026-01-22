@@ -18,6 +18,14 @@ The NiN in J04 has Blender 5.0.1 already installed. If needed elsewhere, follow 
 
 Any version >= 4.3 is compatible (for the water conditions). Verify version with `blender --version` after installation. 
 
+### Learning Blender
+
+Recommend the following tutorials to gain a general understanding of using Blender and common controls. 
+
+(cookie - particularly good for learning how to make keyframes and camera trajectory)
+(camera orbit - more work on camera trajectory)
+(interpolation demo? )
+
 <!-- ### ShapeNet
 TODO: Check about ShapeNet - have to link the repo? Recommend making an accout in Installation?  -->
 

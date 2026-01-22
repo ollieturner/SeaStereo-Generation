@@ -21,12 +21,17 @@ import cv2
 import numpy as np
 
 # Define input/output image filepaths
-raw_depth_path = "demos/check_depth/input/raw depth0001_L.exr"                    # Raw EXR depth for depth value
-raw_image_path = "demos/check_depth/input/raw image0001_L.jpg"                    # Raw image for visualising query pixel
+# raw_depth_path = "demos/check_depth/input/raw depth0001_L.exr"                    # Raw EXR depth for depth value
+# raw_image_path = "demos/check_depth/input/raw image0001_L.jpg"                    # Raw image for visualising query pixel
+# output_image = "demos/check_depth/output/raw_image_with_marker.jpg"               # Output image name 
+raw_depth_path = "demos/check_depth/input/raw depth_L.exr"                    # Raw EXR depth for depth value
+raw_image_path = "demos/check_depth/input/raw image_L.jpg"                    # Raw image for visualising query pixel
 output_image = "demos/check_depth/output/raw_image_with_marker.jpg"               # Output image name 
 
+
+
 # Define query pixel (x, y)
-check_pixel = (505, 255)                       # Front left middle pole
+check_pixel = (505, 430)                       # Front left middle pole
 # check_pixel = (450, 215)                       # Back left middle pole
 
 # Load in raw depth image - IMREAD_UNCHANGED to preserve raw depth details

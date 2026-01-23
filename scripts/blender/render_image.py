@@ -1,5 +1,3 @@
-# TO VERIFY 
-
 # Render a single Blender image 
 # No iterating over configurations/changing settings - renders scene as it is in Blender file 
 
@@ -7,19 +5,11 @@
 # --- RUN INSTRUCTIONS ---
 # Note the file paths are still hardcoded
 
-# blender -b /home/otur3695/Documents/Blender/blender_files/current_underwater_scene.blend \
-#         --python /home/otur3695/Documents/VRI_Underwater_Grasping/blender/render_image.py
-
-# blender -b /home/otur3695/Documents/Blender/blender_files/underwater_tutorials/underwater_scene.blend \
+# blender -b /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend \
 #         --python /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/scripts/blender/render_image.py
 
 # From inside folder with script: 
 # blender -b /home/otur3695/Documents/Blender/<file_name>.blend --python render_image.py
-
-# RUN THIS ONE: 
-# blender -b /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend \
-#         --python /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/scripts/blender/render_image.py
-
 
 
 # --- TO DO ---

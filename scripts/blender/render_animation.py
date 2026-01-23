@@ -16,6 +16,11 @@
 # blender -b /home/otur3695/Documents/Blender/<file_name>.blend --python render_animation.py
 
 
+# blender -b /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend \
+#         --python /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/scripts/blender/render_animation.py
+
+
+
 # --- TO DO ---
 # Make run command smoother
 # --> Build in files to run, not as input arguments

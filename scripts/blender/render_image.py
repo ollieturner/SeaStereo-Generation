@@ -16,6 +16,7 @@
 # From inside folder with script: 
 # blender -b /home/otur3695/Documents/Blender/<file_name>.blend --python render_image.py
 
+# RUN THIS ONE: 
 # blender -b /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend \
 #         --python /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/scripts/blender/render_image.py
 

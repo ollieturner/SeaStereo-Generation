@@ -20,7 +20,7 @@ import glob
 import os
 
 # Define source of images 
-base_folder = "/home/otur3695/Documents/Blender/results/orbit 240 frames"
+base_folder = "/home/otur3695/Documents/Blender/results/blender_output"
 
 # Make video folder to save into 
 video_folder = os.path.join(base_folder, "videos")
@@ -39,15 +39,15 @@ PASSES = {
     "raw_image": {
         "L": "raw image*_L.jpg",
         "R": "raw image*_R.jpg",
-    },
-    "raw_depth": {
-        "L": "raw depth*_L.tif",
-        "R": "raw depth*_L.tif",
-    },
-    "normalized_depth": {
-        "L": "normalized depth*_L.tif",
-        "R": "normalized depth*_R.tif",
-    },
+    } # ,
+    # "raw_depth": {
+    #     "L": "raw depth*_L.tif",
+    #     "R": "raw depth*_L.tif",
+    # },
+    # "normalized_depth": {
+    #     "L": "normalized depth*_L.tif",
+    #     "R": "normalized depth*_R.tif",
+    # },
 }
 
 # Process each pass

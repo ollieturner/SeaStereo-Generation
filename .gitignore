@@ -2,6 +2,7 @@
 blender/
 *.blend
 *.blend1
+results/
 
 # Auto-generated python .gitignore from GitHub
 

@@ -34,7 +34,9 @@ scene = bpy.context.scene
 
 # Save the global renders to a folder to then delete at the end - no option to disable this yet in Blender (see 'Known Issues in README)
 # Other renders (raw image, raw depth) have their output path encoded in Compositing tab in Blender
-output_path = os.path.expanduser("/home/otur3695/Documents/Blender/results/blender_output/delete_global/")
+# output_path = os.path.expanduser("/home/otur3695/Documents/Blender/results/blender_output/delete_global/")
+output_path = os.path.expanduser("results/blender_output/temp/delete_global/")
+
 
 # Set render output
 scene.render.filepath = output_path

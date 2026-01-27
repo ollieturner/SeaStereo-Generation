@@ -124,6 +124,9 @@ suggest not saving into repo for size constraints, depending on size can upload/
 
 -->
 
+<!-- left it configured to export results into results folder in git repo, but change this as needed. not uploading or tracking this folder since it is large 
+blender/ in hugging face -->
+
 
 
 ### Generate Dataset  
@@ -180,3 +183,35 @@ Oliver Turner (UG student at USYD, finishing Sem 2 2026)
 <!-- Make sure there are examples on how to use  -->
 
 
+
+
+
+
+<!-- 
+
+## Dataset and Assets
+
+Large Blender assets and generated datasets are hosted on Hugging Face:
+
+https://huggingface.co/datasets/ollieturner/simulated-underwater-depth
+
+Download instructions:
+
+```bash
+pip install huggingface_hub
+python scripts/download_assets.py -->
+
+
+
+<!-- # Install the Hugging Face CLI
+curl -LsSf https://hf.co/cli/install.sh | bash
+
+# (optional) Login with your Hugging Face credentials
+hf auth login
+
+# Push your dataset files
+hf upload owt3/Simulated-Underwater-Depth-Dataset-Generation . --repo-type=dataset
+
+You can also upload directly from the website using the File Uploader. -->
+
+<!-- https://huggingface.co/datasets/owt3/Simulated-Underwater-Depth-Dataset-Generation -->

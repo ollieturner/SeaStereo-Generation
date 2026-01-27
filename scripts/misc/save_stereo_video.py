@@ -20,14 +20,16 @@ import glob
 import os
 
 # Define source of images 
-base_folder = "/home/otur3695/Documents/Blender/results/blender_output"
+# base_folder = "/home/otur3695/Documents/Blender/results/blender_output"
+base_folder = "demos/sample_dataset/orbit_jerlov5_20m_arr3"
+
 
 # Make video folder to save into 
 video_folder = os.path.join(base_folder, "videos")
 os.makedirs(video_folder, exist_ok=True)
 
 # Define desired FPS 
-fps = 24
+fps = 5 # 24
 
 # Define mp4 format 
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")

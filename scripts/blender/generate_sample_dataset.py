@@ -53,7 +53,7 @@ WATER_CONDITIONS = [
     # ("Jerlov.004", "Jerlov II"),
     # ("Jerlov.002", "Jerlov III"),
     ("Jerlov.001", "Jerlov IA"),
-    ("Jerlov.005", "Jerlov IB"),
+    ("Jerlov.005", "Jerlov IB")
 ]
 
 # Z offsets for Ocean Volume
@@ -108,7 +108,7 @@ temp_output = os.path.join(BASE_SAVE_PATH, "temp")
 os.makedirs(temp_output, exist_ok=True)
 
 scene.frame_start = 1
-scene.frame_end = 1 # CHANGE TO 2030
+scene.frame_end = 30 # CHANGE TO 2030
 
 # Compositor node tree
 tree_name = "Render Output"

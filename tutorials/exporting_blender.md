@@ -2,8 +2,11 @@
 
 ## Exporting in Blender
 
+### Aim
+This tutorial explains the Blender render setup and changes the location the renders are saved to. 
+
 ### Background
-The .blend file has two render output channels - the standard, global render and the custom render from the Compositing Nodes. This tutorial explains their setup and changes the location these renders are saved to. 
+The .blend file has two render output channels - the standard, global render and the custom render from the Compositing Nodes. 
 
 
 The global render is an image of the scene and colour corrected by the inputted settings. Its settings are in Output Properties in the Control Panel tab (bottom right). 
@@ -27,6 +30,10 @@ Test this by running render_animation.py (with scene.frame_end = 1) or render_im
 ![alt text](images/test_export_path.png)
 
 
+The .gitignore will not push the results/ folder, as this will quickly get too large to push to git when generating a dataset. Save datasets to Hugging Face instead. You may also wish to change the location where the results are exported to (do so by following the 'Instructions'!).
+
+
+
 ### Instructions
 
 #### Global Render
@@ -36,7 +43,7 @@ Change the global render output path by selecting the folder icon in this tab:
 ![alt text](images/export_global.png)
 
 
-### Compositing Render
+#### Compositing Render
 
 Change the Compositing Node output path in this tab by again selecting the folder icon. Repeat for each output type - currently selected for raw image, so choose raw_depth then update its settings. 
 

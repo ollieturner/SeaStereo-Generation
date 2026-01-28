@@ -7,8 +7,7 @@ This tutorial explains how to import objects into Blender and provides sources f
 
 
 ### Background
-To design an underwater scene with a realistic seafloor environment and objects of interest for imaging, objects should be imported from third-party sources. This faster and better quality than making things yourself.
-
+To create an underwater scene with a realistic seafloor environment and objects of interest for imaging, objects should be imported from third-party sources. This is faster and produces better quality than making things yourself.
 
 
 ### Initial Configuration
@@ -18,7 +17,7 @@ The scene is organised into the following collections:
 | Collection         | Description                                                             |
 |--------------------|-------------------------------------------------------------------------|
 | Sand Seafloors     | Colour and texture for sand seafloor plane                              |
-| Background Objects | Realistic seafloor objects in background e.g. rocks, seaweed, shipwreck |
+| Background Objects | Seafloor objects in background e.g. rocks, seaweed, shipwreck |
 | Everyday Objects   | Objects of interest in foreground and randomly positioned               |
 
 This setup is followed in the .blend file and in the blender_files/ folder. 
@@ -57,38 +56,19 @@ number -- category translator: https://shapenet.org/resources/data/shapenetcore.
 
 ### Instructions
 
-Use .obj as an example
+First download the desired object from the sources provided above or from your own research. Make sure the object comes with files to describe its material e.g. normals, colour. The ShapeNet everyday objects are .obj files and come with the material properties files. 
 
-This is for .obj, but all those options possible. 
+After downloading, the object can be imported from the File menu, as shown below. Then navigate to the .obj's location and enter.
 
-Mention needing textures and colours, important for realism, light scattering
+INSERT PHOTO
 
-Download 
+Position and scale (to re-size) the object as needed. 
 
+To move it into a collection in the control panel on the right, select the object and press 'M'.
 
-![alt text](image.png)
-
-then navigate to where .obj file is stored
-
-e.g. 
+Also, sometimes the faces of the ShapeNet objects are jagged and zebram pattern-like. Right click the object and 'Auto-Smooth' it. 
 
 
 
-### Debugging Tips
-
-Whenever Blender renders it prints the output file's location to the terminal that opened Blender. 
 
 
-Run render_animation.py (with scene.frame_end = 1) or render_image.py to test rendering a single frame. Then check the terminal where the script ran to read directly where renders are outputted to. 
-
-
-
-### FAQs
-
-#### *Why use a delete_global folder?*
-
-
-
-improvements: randomising selected objects and their positioning 
-- currently have gone through and manually chosen objects, then left them in the everyday objects collection 
-- could instead import objects in the python script from their download after shapenet

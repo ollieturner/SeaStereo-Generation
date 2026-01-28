@@ -1,5 +1,8 @@
 # TUTORIAL
 
+TO DO: 
+change if getting rid of global render and replacing with raw image (won't need delete_global) 
+
 ## Exporting in Blender
 
 ### Aim

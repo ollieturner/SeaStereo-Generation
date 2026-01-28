@@ -1,6 +1,38 @@
 # Simulated-Underwater-Depth-Dataset-Generation
 
-Generation of simulated datasets containing raw image and raw depth of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Datasets to be used for training a neural network to recognise depth from an image, which forms the basis for underwater grasping. 
+Generation of simulated datasets containing raw image and raw depth of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Datasets will be used for training a neural network to recognise depth from an image, which is the basis for underwater grasping. 
+
+
+## Table of Contents
+
+
+
+
+- Add in Hugging Face (link to)
+--> Explain git repo organisation earlier?
+- Test scripts
+- Script to run after installation to test its working (have to change output export path first?)
+- Turn terminal commands into scripts
+- Sample dataset
+- Reference tutorials and recommended
+
+CURRENT SETUP: 
+Getting Started 
+- Pulling Repo
+- Blender Installation 
+- Learning Blender
+Repo Organisation 
+Dataset Characteristics
+- Outputs
+- Features
+- Size, Time
+How to Use
+- (Tutorials)
+Known Issues
+Notes for Improvement
+Contact
+
+
 
 
 ## Getting Started 
@@ -14,17 +46,23 @@ git clone https://github.com/ollieturner/Simulated-Underwater-Depth-Dataset-Gene
 ```
 ### Blender Installation
 
-The NiN in J04 has Blender 5.0.1 already installed. If needed elsewhere, follow Blender installation instructions [here](https://docs.blender.org/manual/en/latest/getting_started/installing/index.html). 
+If not installed already, follow the Blender installation instructions [here](https://docs.blender.org/manual/en/latest/getting_started/installing/index.html). 
 
 Any version >= 4.3 is compatible (for the water conditions). Verify version with `blender --version` after installation. 
 
 ### Learning Blender
 
-Recommend the following tutorials to gain a general understanding of using Blender and common controls. 
+Before using the scripts and blender scenes in this repo, if you are new to Blender I recommend following a few tutorials to gain a general understanding of Blender and common controls. 
+
+
+
+
+
+<!-- Recommend the following tutorials to gain a general understanding of using Blender and common controls. 
 
 (cookie - particularly good for learning how to make keyframes and camera trajectory)
 (camera orbit - more work on camera trajectory)
-(interpolation demo? )
+(interpolation demo? ) -->
 
 <!-- ### ShapeNet
 TODO: Check about ShapeNet - have to link the repo? Recommend making an accout in Installation?  -->
@@ -171,6 +209,11 @@ use things as inspiration, copy from a base and build/experiment from there  -->
 ## Known Issues
 
 <!-- Note on bug that still does global render, link that it is a current/ongoing issue  -->
+
+
+## Notes for Improvement
+
+Currently a subset of everyday ShapeNet objects have been manually selected, imported and organised into collections that are iterated over. This object selection and import could be automated in the dataset generation script. 
 
 
 ## Contact: 

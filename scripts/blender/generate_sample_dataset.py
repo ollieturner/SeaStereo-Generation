@@ -30,7 +30,9 @@
 # Then add a layer to iterate over depths 
 
 
-
+# TO DO: 
+# Delete the delte_global
+# Use spotlights for clear and murky conditions 
 
 
 # CAMERAS + LIGHTS + DEPTH + WATER + ARRANGEMENTS

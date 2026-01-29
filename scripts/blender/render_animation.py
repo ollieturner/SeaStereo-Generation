@@ -11,8 +11,9 @@
 #         --python /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/scripts/blender/render_animation.py
 
 # From inside folder with script: 
-# blender -b /home/otur3695/Documents/Blender/<file_name>.blend --python render_animation.py
+# blender -b /home/otur3695/Documents/Blender/underwater_scene.blend --python render_animation.py
 
+# blender -b blender/underwater_scene.blend --python scripts/blender/render_animation.py
 
 
 # --- TO DO ---
@@ -32,18 +33,15 @@ import os
 # Define scene
 scene = bpy.context.scene
 
-# Save the global renders to a folder to then delete at the end - no option to disable this yet in Blender (see 'Known Issues in README)
-# Other renders (raw image, raw depth) have their output path encoded in Compositing tab in Blender
-# output_path = os.path.expanduser("/home/otur3695/Documents/Blender/results/blender_output/delete_global/")
-output_path = os.path.expanduser("results/blender_output/temp/delete_global/")
-
+# Define render output path (already in .blend file but for backup, also can override if desired)
+output_path = os.path.expanduser("results/blender_output/temp/")
 
 # Set render output
 scene.render.filepath = output_path
 
 # Set frame range (limit for demos)
 scene.frame_start = 1
-scene.frame_end = 240
+scene.frame_end = 1
 
 # Render animation
 bpy.ops.render.render(animation=True)

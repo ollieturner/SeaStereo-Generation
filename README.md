@@ -15,6 +15,8 @@ Generation of simulated datasets containing raw image and raw depth of diverse u
 - Turn terminal commands into scripts
 - Sample dataset
 - Reference tutorials and recommended
+- scripts configured to read .blend file on my machine, you will need to change the paths to wherever you store the .blend scene after downloading from Hugging Face 
+- Also need to change the export paths in files 
 
 CURRENT SETUP: 
 Getting Started 
@@ -137,6 +139,8 @@ See 'demos/dataset_summary' to see example photo and videos for the above featur
 State number of things in a table? For diversity? - then number of combinations? 
 
 ### Size, Time
+
+Big factors in changing time is depth and water conditions 
 
 <!-- TODO -->
 <!-- put into table? -->

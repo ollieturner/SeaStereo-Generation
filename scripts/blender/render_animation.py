@@ -26,12 +26,48 @@
 # ** See test_render_animation.py for current progress on these improvements
 
 
+# Add in changing resolution 
+
 # Import libraries
 import bpy
 import os
 
 # Define scene
 scene = bpy.context.scene
+
+
+# ----------------------------
+# Resolution info (print)
+# ----------------------------
+res_x = scene.render.resolution_x
+res_y = scene.render.resolution_y
+res_pct = scene.render.resolution_percentage
+
+print(f"Render resolution: {res_x} x {res_y}")
+print(f"Resolution percentage: {res_pct}%")
+
+
+# ----------------------------
+# Resolution override (optional)
+# Uncomment to force resolution
+# ----------------------------
+scene.render.resolution_x = 854
+scene.render.resolution_y = 480
+scene.render.resolution_percentage = 100
+
+# DO 640 x 480
+
+res_x = scene.render.resolution_x
+res_y = scene.render.resolution_y
+res_pct = scene.render.resolution_percentage
+
+print(f"Render resolution: {res_x} x {res_y}")
+print(f"Resolution percentage: {res_pct}%")
+
+
+engine = scene.render.engine
+print(f"Render engine: {engine}")
+
 
 # Define render output path (already in .blend file but for backup, also can override if desired)
 output_path = os.path.expanduser("results/blender_output/temp/")

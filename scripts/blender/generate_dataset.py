@@ -37,15 +37,35 @@ import shutil
 import random
 import math
 
-RENDER = False
+# If you want random caustic phase per render:
+
+# image_node.frame_offset = random.randint(0, 239)
+
+# That keeps animation intact but changes where it starts.
+
+RENDER = True
 
 # Define base export save path
 BASE_SAVE_PATH = "results/blender_output/"
 
 # Water conditions (name, label)
+# WATER_CONDITIONS = [
+#     ("Jerlov",     "Jerlov I"),
+#     ("Jerlov.001", "Jerlov IA"),
+#     ("Jerlov.005", "Jerlov IB"),        # Clearest ones ^ 
+#     ("Jerlov.004", "Jerlov II"),
+#     ("Jerlov.003", "Jerlov IC"),        # Slightly murky but still clear. Use Clear camera spotlight ^ 
+#     ("Jerlov.002", "Jerlov III"),       # Use Murky camera spotlight for this and below 
+#     ("Jerlov.007", "Jerlov 5C"),
+#     ("Jerlov.006", "Jerlov 3C")
+#     # ("Jerlov.008", "Jerlov 7C"),      # Too murky, can't see anything 
+#     # ("Jerlov.009", "Jerlov 9C")
+# ]
+
+
 WATER_CONDITIONS = [
     ("Jerlov",     "Jerlov I"),
-    ("Jerlov.001", "Jerlov IA"),
+    # ("Jerlov.001", "Jerlov IA"),
     ("Jerlov.005", "Jerlov IB"),        # Clearest ones ^ 
     ("Jerlov.004", "Jerlov II"),
     ("Jerlov.003", "Jerlov IC"),        # Slightly murky but still clear. Use Clear camera spotlight ^ 
@@ -55,16 +75,20 @@ WATER_CONDITIONS = [
     # ("Jerlov.008", "Jerlov 7C"),      # Too murky, can't see anything 
     # ("Jerlov.009", "Jerlov 9C")
 ]
+
 # Define water clarity type for the lights 
 # True = clear, False = murky
 CLEAR_WATER_FRAMES = ["Jerlov", "Jerlov.001", "Jerlov.005", "Jerlov.004", "Jerlov.003"]
 MURKY_WATER_FRAMES = ["Jerlov.002", "Jerlov.007", "Jerlov.006"]
 
 # Z offsets for Ocean Volume
-Z_OFFSETS = [-20, -10, -5]
+# Z_OFFSETS = [-20, -10, -5]
+CLEAR_Z_OFFSETS = [-20, -10, -5]
+MURKY_Z_OFFSETS = [-22, -21]
+
 
 # Number of random arrangements per camera × water × Z
-NUM_RANDOM_ARRANGEMENTS = 3
+NUM_RANDOM_ARRANGEMENTS = 1 # 3
 MIN_OBJECTS, MAX_OBJECTS = 3, 5
 
 # 3x3 grid bounds for Everyday Objects in foreground
@@ -122,7 +146,7 @@ temp_output = os.path.join(BASE_SAVE_PATH, "temp")
 os.makedirs(temp_output, exist_ok=True)
 
 scene.frame_start = 1
-scene.frame_end = 1
+scene.frame_end = 30
 
 # Compositor node tree
 tree_name = "Render Output"
@@ -196,10 +220,17 @@ for cam_obj in camera_collection.objects:
 
         print(f"Switched water condition to {label}")
 
+        # Choose depth offset selection pool based on water type
+        if water_type == "Clear":
+            z_offsets = CLEAR_Z_OFFSETS
+        else:
+            z_offsets = MURKY_Z_OFFSETS
+
+
         # -----------------------------
         # LOOP OVER Z OFFSETS
         # -----------------------------
-        for z in Z_OFFSETS:
+        for z in z_offsets:
             ocean_obj.location.z = z
             print(f"Set Ocean Volume Z to: {z} m")
 

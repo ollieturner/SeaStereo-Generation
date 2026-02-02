@@ -84,7 +84,9 @@ MURKY_WATER_FRAMES = ["Jerlov.002", "Jerlov.007", "Jerlov.006"]
 # Z offsets for Ocean Volume
 # Z_OFFSETS = [-20, -10, -5]
 CLEAR_Z_OFFSETS = [-20, -10, -5]
-MURKY_Z_OFFSETS = [-22, -21]
+MURKY_Z_OFFSETS = [-23, -22]
+
+# MURKY_Z_OFFSETS = [-22, -21]
 
 
 # Number of random arrangements per camera × water × Z

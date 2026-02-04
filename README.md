@@ -3,13 +3,70 @@
 Generation of simulated datasets containing raw image and raw depth of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Datasets will be used for training a neural network to recognise depth from an image, which is the basis for underwater grasping. 
 
 
-## Table of Contents
+
+| Clear, shallow water | Clear, deep water | Murky, shallow water |
+|----------------------|------------------------|-----------------------------|
+| ![alt text](tutorials/images/arc_clear.jpg) | ![alt text](tutorials\images\clear_deep.jpg) | ![alt text](tutorials\images\murky_shallow.jpg) |
 
 
+<!-- VIDEO NOT WORKING?  -->
+
+<!-- | Arc camera path in shallow, clear water |
+|------------------------------|
+| <video controls src="tutorials\images\arc_demo.mp4" title="Title"></video> |
 
 
+<video src="tutorials\images\arc_demo.mp4" placeholder="tutorials\images\arc_demo.mp4" autoplay loop controls muted title="Arc Approach Video">
+Sorry, your browser doesn't support HTML 5 video.
+</video> -->
+
+<!-- <video controls src="arc_demo.mp4" title="Title"></video>  -->
+<!-- <video controls src="tutorials\images\arc_demo.mp4" title="Title"></video> -->
+
+ 
+
+## PLAN
+Getting Started
+--> Say what ubuntu etc it has been run on, blender version, GPUs
+- Pulling Repo 
+- Hugging Face 
+--> Link Hugging Face (download blender folder then move into here, git ignore won't push it, but need it for relative paths in bash scripts. otherwise change paths in bash script)
+- Blender Installation 
+--> link cookie tutorial as beginner learning 
+- Downloading ShapeNet
+--> Has a subset of ShapeNet objects, to add more need to make an account 
+
+Repo Organisation 
+--> Link Hugging Face (download blender folder then move into here, git ignore won't push it, but need it for relative paths in bash scripts. otherwise change paths in bash script)
+--> Add a scripts folder, fix so folders are pushed but not contents 
+
+Dataset Characteristics 
+--> Outputs
+--> Features table with time
+--> Predicted time and size 
+
+Test with Sample Dataset
+- Test scripts, sample dataset --> 1 for each?, a few frames in one
+--> Change export path
+
+How to use
+- List out tutorials 
+- Link additional useful 
+
+Notes for Improvement
+--> Include any known issues
+
+Contact
+--> Email, LinkedIn
+--> Poster 
+
+References
+- ShapeNet
+
+
+<!-- 
 - Add in Hugging Face (link to)
---> Explain git repo organisation earlier?
+-- Explain git repo organisation earlier?
 - Test scripts
 - Script to run after installation to test its working (have to change output export path first?)
 - Turn terminal commands into scripts
@@ -32,43 +89,116 @@ How to Use
 - (Tutorials)
 Known Issues
 Notes for Improvement
-Contact
+Contact -->
 
 
+## TODO
+- Hugging Face organisation
+- Hugging Face filepaths 
+- test dataset script with render disabled
+- test sample dataset with render enabled
+-- do a few complete ones 
+
+
+
+## Table of Contents
+
+1. [Getting Started](#getting-started)
+   - [Pulling the Repository](#pulling-the-repository)
+   - [Pulling the Hugging Face Dataset](#pulling-the-hugging-face-dataset)
+   - [Blender Installation](#blender-installation)
+   - [Downloading ShapeNetCore](#downloading-shapenetcore)
+
+2. [Repository Organisation](#repository-organisation)
+
+3. [Dataset Characteristics](#dataset-characteristics)
+
+4. [Testing with a Sample Dataset](#testing-with-a-sample-dataset)
+
+5. [How to Use](#how-to-use)
+
+6. [Notes for Improvement](#notes-for-improvement)
+
+7. [Contact](#contact)
+
+8. [References](#references)
 
 
 ## Getting Started 
 
-### Pulling Repo
+The repository and Blender scenes have been used and rendered on Ubuntu 24.04, Blender 5.0.1
+INSERT GPUS
 
-In terminal, navigate to where you want to store the repo. Then pull with: 
+### Pulling the Repository
+
+In a terminal, navigate to where you want to store the repository. Then pull with: 
 
 ```
 git clone https://github.com/ollieturner/Simulated-Underwater-Depth-Dataset-Generation.git
 ```
+Then check the pull worked correctly with:
+``` 
+cd Simulated-Underwater-Depth-Dataset-Generation
+git status 
+```
+Check the repository's contents with `ls` when inside. 
+
+
+### Pulling the Hugging Face Dataset
+The Blender scene, background objects, foreground objects and sample datasets are stored in a Hugging Face dataset due to storage requirements. 
+
+First, if you don't have a Hugging Face account already, make one [here](https://huggingface.co/).
+
+It is important to run the following whilst inside the repository so the relative paths work correctly. Download the Hugging Face dataset:
+
+```
+huggingface-cli login
+```
+(CHECK IF NEEDED)
+
+```
+huggingface-cli download owt3/Simulated-Underwater-Depth-Dataset-Generation --repo-type dataset
+```
+
+Make a folder to store the Hugging Face files (not trakced by .gitignore)
+```
+mkdir -p blender
+```
+RENAME FOLDER
+
+OR 
+```
+huggingface-cli download \
+  owt3/Simulated-Underwater-Depth-Dataset-Generation \
+  --repo-type dataset \
+  --local-dir ./ \
+  --local-dir-use-symlinks False
+
+```
+Then check the download worked correctly with:
+```
+ls datasets/Simulated-Underwater
+```
+CHANGE FILE PATHS/NAMES
+MAKE IT DOWNLOAD INTO blender/
+WILL THIS SAVE ONE FOLDER THEN HAVE IT NESTED IN THERE, CHANGE NAMES TO BE CLEARER? 
+
+
 ### Blender Installation
 
 If not installed already, follow the Blender installation instructions [here](https://docs.blender.org/manual/en/latest/getting_started/installing/index.html). 
 
 Any version >= 4.3 is compatible (for the water conditions). Verify version with `blender --version` after installation. 
 
-### Learning Blender
+#### Learning Blender
 
-Before using the scripts and blender scenes in this repo, if you are new to Blender I recommend following a few tutorials to gain a general understanding of Blender and common controls. 
-
-
+Before using the scripts and scenes in this repository, if you are new to Blender I recommend following this tutorial ([here](https://www.youtube.com/watch?v=Ci3Has4L5W4)) to gain a general understanding of common controls. 
 
 
+### Downloading ShapeNetCore
+The objects of interest in the foreground are sourced from [ShapeNet](https://shapenet.org/). Select categories of objects are already downloaded and included in the previous Hugging Face dataset. These include benches, couches, bottles, bins, mugs and watercraft. 
 
-<!-- Recommend the following tutorials to gain a general understanding of using Blender and common controls. 
-
-(cookie - particularly good for learning how to make keyframes and camera trajectory)
-(camera orbit - more work on camera trajectory)
-(interpolation demo? ) -->
-
-<!-- ### ShapeNet
-TODO: Check about ShapeNet - have to link the repo? Recommend making an accout in Installation?  -->
-
+If you'd like more ShapeNet objects, make a ShapeNet account and follow their instructions to download ShapeNetCore from their Hugging Face. Note that these two steps require an approval from ShapeNet, so allow a day for each of the approvals. 
 
 
 <!-- ### FIRST: Configuring Output Path -->
@@ -78,81 +208,75 @@ suggest not saving into repo for size constraints, depending on size can upload/
 -->
 
 
-## Repo Organisation 
+
+## Repository Organisation 
 
 <!-- move blender scenes into hugging face?? depends how big the file ends up being  -->
 
 | Folder          | Description                                                                                                     |
 |-----------------|-----------------------------------------------------------------------------------------------------------------|
-| blender_scenes  | Blender files for underwater environments                                                                       |
-| ShapeNet TODO   | Everyday object models to use in underwater scenes from ShapeNet/Link to ShapeNet repo TODO                     |
-| scripts/blender | Python scripts to run blender processes automated and in the background e.g. changing configurations, rendering |
-| scripts/misc    | Other miscellaneous but relevant python scripts                                                                 |
+| blender         | Blender files for underwater environments, including scene, objects and sand (from HF)                          |
 | demos           | Results to demonstrate scripts, with sub-folders for each script                                                |
+| example_sample_dataset | An example sample dataset to compare with (from HF)                                                      |
+| results         | Empty folder to that Blender scene outputs into. Its contents are not tracked to avoid pushing large datasets   |
+| scripts/blender | Python scripts to run automated Blender processes e.g. generating dataset, rendering images                     |
+| scripts/misc    | Other Python scripts e.g. saving a video from rendered images                                                   |
+| tutorials       | Guided tutorials on using the Blender scene file e.g. adding cameras and objects                                |
+
+Note HF denotes folders from the Hugging Face dataset. They are ignored by the .gitignore and will not be tracked by the repository. 
+
+CHECK IF SHAPENET IN BLENDER OR OWN 
 
 <!-- Table generated with: https://www.tablesgenerator.com/markdown_tables# -->
-
-<!-- TODO: Link to Hugging Face for demo results? Or add in a suggestion to use that?  -->
-
 
 
 ## Dataset Characteristics
 
-### Outputs
+The dataset produces raw RGB and depth images (.jpg, .exr respectively). With a left and right camera for the stereo setup, this means one rendered frame of the scene outputs 4 images. 
 
-The dataset contains raw images (.jpg) and raw depth (.exr), each for left and right camera - one frame from Blender outputs 4 images. 
+There are INSERT configurations. The features that are iterated over are listed below. 
 
-Each render is 240 frames (10s at 24 FPS). This is the current configuration; the number of frames is easily adjustable. <!-- TODO LINK TO HOW TO? -->
+INSERT TABLE 
+bold headings and list underneath 
 
-An example of the folder organisation is provided below. 
+4 camera types
+6 camera paths
+8 water conditions 
+2-3 depths (2 for murky, 3 for clear)
+3 random arranegments
 
-<!-- INSERT SCREENSHOT  -->
 
-### Features
+One rendered frame (4 images) is INSERT MB. The time for one render varies, largely with water condition and depth. See this table LINK for a breakdown of the times. The resolution is set to 640x480 - as expected, render time increases with resolution. 
 
-The repo is configured to iterate over combinations (think nested for loops) with the following features: 
+With 240 rendered frames for each configuration (10s video at 24 FPS), the complete dataset will be **INSERT GB** and take **INSERT** to generate. 
 
-<!-- TODO 
-- Environment
-    - No Background 
-    - Rocky background (?) 
-- Lighting 
-    - Spotlight (dark)
-    - Spotlight (med)
-    - Spotlight (bright)
-    - Caustic
-- Depth 
-- Camera parameters
-- Water conditions (all with marine snow) (Jerlovs)
-- Objects (lone, multiple, rocks, everyday)
-- Camera trajectories
-    - Orbit
-    - Linear approach 
-    - Arc approach
-    - Arc approach and retreat
-    - Sweeps (?)  -->
+In total, there will be **INSERT NUMBER** of raw image and raw depth pairs. 
 
-See 'demos/dataset_summary' to see example photo and videos for the above features. <!-- OR LINK TO HUGGING FACE? --> 
+An example of the folder organisation is provided below. Each render is indexed in by the configuration settings. 
 
-<!-- Desired features can be selected/removed, as explained in TODO -->
+INSERT SCREENSHOT 
 
-State number of things in a table? For diversity? - then number of combinations? 
 
-### Size, Time
 
-Big factors in changing time is depth and water conditions 
+<!-- - raw RGB and depth images  
+- one render = 4 frames
+- Predicted size and time of dataset
+- over features
+-- Table/list
+-- Table with render times for water conditions/depth configurations? (21 rows -- reference and put somewhere else?)
+ -->
 
-<!-- TODO -->
-<!-- put into table? -->
 
-Rendering of one frame (4 output images) takes INSERT TIME and is INSERT SIZE. 
+## Testing with a Sample Dataset
 
-For a complete render of a feature (240 frames) this takes **INSERT TIME** and is **INSERT SIZE**. 
+change to testing with samples 
 
-Over all INSERT NUMBER features, there are INSERT NUMBER COMBS. This will take **INSERT TIME** and is **INSERT SIZE**. 
-<!-- Rephrase this if making a table of combinations  -->
+then do sample dataset
+and another with render disabled to test it iterates through configurations correctly 
 
-In total, there will be INSERT NUMBER of raw image and raw depth pairs. 
+(Add in changing export path)
+(quick test, however do still need to change the export path)
+(explained in tutorial, but some renders can be changed in python but others haven't been)
 
 
 ## How to Use 
@@ -198,7 +322,7 @@ stereo
 
 
 
-## How to Add Components 
+### How to Add Components 
 
 <!-- Describing adding into blender manually 
 then configured in python scripts
@@ -209,15 +333,12 @@ link useful tutorials
 use things as inspiration, copy from a base and build/experiment from there  -->
 
 
-
-## Known Issues
-
-<!-- Note on bug that still does global render, link that it is a current/ongoing issue  -->
-
-
 ## Notes for Improvement
 
-Currently a subset of everyday ShapeNet objects have been manually selected, imported and organised into collections that are iterated over. This object selection and import could be automated in the dataset generation script. 
+Currently a subset of everyday ShapeNet objects have been manually selected, imported and organised into collections that are iterated over. This object import could be automated in the dataset generation script, where objects stored in the ShapeNet folder are called on each iteration. 
+
+
+Further work on determining if it is possible to change the output render path for exports from the Compositing nodes. (Benefit, would ease onboaridng process etc).
 
 
 ## Contact: 
@@ -225,40 +346,9 @@ Currently a subset of everyday ShapeNet objects have been manually selected, imp
 
 Oliver Turner (UG student at USYD, finishing Sem 2 2026)
 
+LinkedIn: <www.linkedin.com/in/oliver-turner-635254291>
 
 
-<!-- Make sure there are examples on how to use  -->
+## References
 
-
-
-
-
-
-<!-- 
-
-## Dataset and Assets
-
-Large Blender assets and generated datasets are hosted on Hugging Face:
-
-https://huggingface.co/datasets/ollieturner/simulated-underwater-depth
-
-Download instructions:
-
-```bash
-pip install huggingface_hub
-python scripts/download_assets.py -->
-
-
-
-<!-- # Install the Hugging Face CLI
-curl -LsSf https://hf.co/cli/install.sh | bash
-
-# (optional) Login with your Hugging Face credentials
-hf auth login
-
-# Push your dataset files
-hf upload owt3/Simulated-Underwater-Depth-Dataset-Generation . --repo-type=dataset
-
-You can also upload directly from the website using the File Uploader. -->
-
-<!-- https://huggingface.co/datasets/owt3/Simulated-Underwater-Depth-Dataset-Generation -->
+<!-- SHAPENET -->

@@ -43,7 +43,7 @@ import math
 
 # That keeps animation intact but changes where it starts.
 
-RENDER = True
+RENDER = False
 
 # Define base export save path
 BASE_SAVE_PATH = "results/blender_output/"
@@ -76,7 +76,6 @@ WATER_CONDITIONS = [
     # ("Jerlov.009", "Jerlov 9C")
 ]
 
-# COMBINE WITH WATER CONDITIONS SO ONE LIST 
 # Define water clarity type for the lights 
 # True = clear, False = murky
 CLEAR_WATER_FRAMES = ["Jerlov", "Jerlov.001", "Jerlov.005", "Jerlov.004", "Jerlov.003"]
@@ -84,7 +83,6 @@ MURKY_WATER_FRAMES = ["Jerlov.002", "Jerlov.007", "Jerlov.006"]
 
 # Z offsets for Ocean Volume
 # Z_OFFSETS = [-20, -10, -5]
-# CHANGE TO OFFSET WITH 25 automatically 
 CLEAR_Z_OFFSETS = [-20, -10, -5]
 MURKY_Z_OFFSETS = [-23, -22]
 

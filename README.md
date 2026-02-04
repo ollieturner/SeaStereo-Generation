@@ -9,6 +9,9 @@ Generation of simulated datasets containing raw image and raw depth of diverse u
 | ![alt text](tutorials/images/arc_clear.jpg) | ![alt text](tutorials\images\clear_deep.jpg) | ![alt text](tutorials\images\murky_shallow.jpg) |
 
 
+The dataset, in terms of its size and diversity, is highly customisable. The current setup produces a dataset with 260 configurations with 5 camera paths, 4 camera paths, 8 water conditions in 1-2 depths. With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate. In total, there would be **7,800** raw RGB and depth pairs. 
+
+
 <!-- VIDEO NOT WORKING?  -->
 
 <!-- | Arc camera path in shallow, clear water |
@@ -25,43 +28,43 @@ Sorry, your browser doesn't support HTML 5 video.
 
  
 
-## PLAN
+<!-- ## PLAN
 Getting Started
---> Say what ubuntu etc it has been run on, blender version, GPUs
+-- Say what ubuntu etc it has been run on, blender version, GPUs
 - Pulling Repo 
 - Hugging Face 
---> Link Hugging Face (download blender folder then move into here, git ignore won't push it, but need it for relative paths in bash scripts. otherwise change paths in bash script)
+-- Link Hugging Face (download blender folder then move into here, git ignore won't push it, but need it for relative paths in bash scripts. otherwise change paths in bash script)
 - Blender Installation 
---> link cookie tutorial as beginner learning 
+-- link cookie tutorial as beginner learning 
 - Downloading ShapeNet
---> Has a subset of ShapeNet objects, to add more need to make an account 
+-- Has a subset of ShapeNet objects, to add more need to make an account 
 
 Repo Organisation 
---> Link Hugging Face (download blender folder then move into here, git ignore won't push it, but need it for relative paths in bash scripts. otherwise change paths in bash script)
---> Add a scripts folder, fix so folders are pushed but not contents 
+-- Link Hugging Face (download blender folder then move into here, git ignore won't push it, but need it for relative paths in bash scripts. otherwise change paths in bash script)
+-- Add a scripts folder, fix so folders are pushed but not contents 
 
 Dataset Characteristics 
---> Outputs
---> Features table with time
---> Predicted time and size 
+-- Outputs
+-- Features table with time
+-- Predicted time and size 
 
 Test with Sample Dataset
-- Test scripts, sample dataset --> 1 for each?, a few frames in one
---> Change export path
+- Test scripts, sample dataset -- 1 for each?, a few frames in one
+-- Change export path
 
 How to use
 - List out tutorials 
 - Link additional useful 
 
 Notes for Improvement
---> Include any known issues
+-- Include any known issues
 
 Contact
---> Email, LinkedIn
---> Poster 
+-- Email, LinkedIn
+-- Poster 
 
 References
-- ShapeNet
+- ShapeNet -->
 
 
 <!-- 
@@ -92,28 +95,20 @@ Notes for Improvement
 Contact -->
 
 
-## TODO
-- Hugging Face organisation
-- Hugging Face filepaths 
-- test dataset script with render disabled
-- test sample dataset with render enabled
--- do a few complete ones 
-
-
-
 ## Table of Contents
 
 1. [Getting Started](#getting-started)
    - [Pulling the Repository](#pulling-the-repository)
-   - [Pulling the Hugging Face Dataset](#pulling-the-hugging-face-dataset)
+   - [Downloading the Hugging Face Dataset](#downloading-the-hugging-face-dataset)
    - [Blender Installation](#blender-installation)
    - [Downloading ShapeNetCore](#downloading-shapenetcore)
+   - [First Steps](#first-steps)
 
 2. [Repository Organisation](#repository-organisation)
 
 3. [Dataset Characteristics](#dataset-characteristics)
 
-4. [Testing with a Sample Dataset](#testing-with-a-sample-dataset)
+4. [Testing with Examples](#testing-with-examples)
 
 5. [How to Use](#how-to-use)
 
@@ -126,8 +121,7 @@ Contact -->
 
 ## Getting Started 
 
-The repository and Blender scenes have been used and rendered on Ubuntu 24.04, Blender 5.0.1
-INSERT GPUS
+The repository and Blender scenes were developed and rendered using Blender 5.0.1 on Ubuntu 24.04, with two NVIDIA GeForce RTX 3080 Ti GPUs.
 
 ### Pulling the Repository
 
@@ -144,6 +138,23 @@ git status
 Check the repository's contents with `ls` when inside. 
 
 
+
+### Downloading the Hugging Face Dataset
+The Blender scene, background objects, foreground objects and sample datasets are stored in a Hugging Face dataset due to storage requirements. 
+
+First, if you don't have a Hugging Face account already, make one [here](https://huggingface.co/).
+
+Download the Hugging Face dataset from [here](https://huggingface.co/datasets/owt3/Simulated-Underwater-Depth-Dataset-Generation/tree/main). 
+
+Then move each of the folders into your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, rendering by calling the Blender file in the `blender/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub. 
+
+The local repository organisation should look like this: 
+
+INSERT SCREENSHOT 
+
+
+
+<!-- 
 ### Pulling the Hugging Face Dataset
 The Blender scene, background objects, foreground objects and sample datasets are stored in a Hugging Face dataset due to storage requirements. 
 
@@ -181,7 +192,7 @@ ls datasets/Simulated-Underwater
 ```
 CHANGE FILE PATHS/NAMES
 MAKE IT DOWNLOAD INTO blender/
-WILL THIS SAVE ONE FOLDER THEN HAVE IT NESTED IN THERE, CHANGE NAMES TO BE CLEARER? 
+WILL THIS SAVE ONE FOLDER THEN HAVE IT NESTED IN THERE, CHANGE NAMES TO BE CLEARER?  -->
 
 
 ### Blender Installation
@@ -192,7 +203,7 @@ Any version >= 4.3 is compatible (for the water conditions). Verify version with
 
 #### Learning Blender
 
-Before using the scripts and scenes in this repository, if you are new to Blender I recommend following this tutorial ([here](https://www.youtube.com/watch?v=Ci3Has4L5W4)) to gain a general understanding of common controls. 
+If you are new to Blender, I recommend following this [tutorial](https://www.youtube.com/watch?v=Ci3Has4L5W4) before using the Blender scene and `tutorials`. This will give a general understanding of common controls. 
 
 
 ### Downloading ShapeNetCore
@@ -201,17 +212,14 @@ The objects of interest in the foreground are sourced from [ShapeNet](https://sh
 If you'd like more ShapeNet objects, make a ShapeNet account and follow their instructions to download ShapeNetCore from their Hugging Face. Note that these two steps require an approval from ShapeNet, so allow a day for each of the approvals. 
 
 
-<!-- ### FIRST: Configuring Output Path -->
+### First Steps
 
-<!-- Have to change in scripts and also in blender file, add in screenshots 
-suggest not saving into repo for size constraints, depending on size can upload/backup into hugging face (up to 100GB)
--->
+I first advise reading the rest of this README to understand the dataset and how to change its contents. 
 
+Once you begin rendering, either from the automated Python scripts or directly from the Blender file, you will need to change the output paths in the Blender file to your local machine. See `tutorials/exporting_blender` for further detail and instructions. 
 
 
 ## Repository Organisation 
-
-<!-- move blender scenes into hugging face?? depends how big the file ends up being  -->
 
 | Folder          | Description                                                                                                     |
 |-----------------|-----------------------------------------------------------------------------------------------------------------|
@@ -225,112 +233,158 @@ suggest not saving into repo for size constraints, depending on size can upload/
 
 Note HF denotes folders from the Hugging Face dataset. They are ignored by the .gitignore and will not be tracked by the repository. 
 
-CHECK IF SHAPENET IN BLENDER OR OWN 
-
 <!-- Table generated with: https://www.tablesgenerator.com/markdown_tables# -->
 
 
 ## Dataset Characteristics
 
+The **features types and quantities are customisable**. They can be edited either in the Blender scene or the automated Python script (see [Changing the Dataset](#changing-the-dataset)). The current setup (260 configurations) is shown below.  
+
+| **Camera Paths**                                                          | **Camera Types**                                                                                                                                                                       | **Water Conditions**                                                                                                                         | **Depths**                                     | **Random Arrangements** |
+|---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|-------------------------|
+| Approach and retreat<br>Arc <br>Horizontal pan<br>Orbit <br>Top-view pan  | Low focal length (1.3mm), low interocular (INSERT)<br>High focal length (2.2mm), high interocular (INSERT)<br>Low focal length, high interocular<br>High focal length, low interocular | Clear: <br>- Jerlov<br>- Jerlov IA<br>- Jerlov IB<br>- Jerlov II<br>- Jerlov IC<br><br>Murky: <br>- Jerlov III<br>- Jerlov 5C<br>- Jerlov 3C | Clear:<br>- 5m<br>- 20m <br><br>Murky:<br>- 2m | 1 random arrangement    |
+
 The dataset produces raw RGB and depth images (.jpg, .exr respectively). With a left and right camera for the stereo setup, this means one rendered frame of the scene outputs 4 images. 
 
-There are INSERT configurations. The features that are iterated over are listed below. 
+One rendered frame (4 images) is ~1.8 MB. The time for one render is ~1-2mins - this value varies with each configuration, and mostly depends on water condition and depth (clear/shallow is fast, whilst murky/deep is slow). The resolution is set to 640x480. 
 
-INSERT TABLE 
-bold headings and list underneath 
+With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate. In total, there would be **7,800** raw RGB and depth pairs. 
 
-4 camera types
-6 camera paths
-8 water conditions 
-2-3 depths (2 for murky, 3 for clear)
-3 random arranegments
+An example of the folder organisation after the dataset is generated is provided below. Each render is indexed in by its configuration settings. 
 
+![alt text](tutorials/images/dataset_characteristics_org.png)
 
-One rendered frame (4 images) is INSERT MB. The time for one render varies, largely with water condition and depth. See this table LINK for a breakdown of the times. The resolution is set to 640x480 - as expected, render time increases with resolution. 
-
-With 240 rendered frames for each configuration (10s video at 24 FPS), the complete dataset will be **INSERT GB** and take **INSERT** to generate. 
-
-In total, there will be **INSERT NUMBER** of raw image and raw depth pairs. 
-
-An example of the folder organisation is provided below. Each render is indexed in by the configuration settings. 
-
-INSERT SCREENSHOT 
+Note that this example is for just one camera and one render. However the file organisation extends similarly for successive cameras and renders. 
 
 
+## Testing with Examples
 
-<!-- - raw RGB and depth images  
-- one render = 4 frames
-- Predicted size and time of dataset
-- over features
--- Table/list
--- Table with render times for water conditions/depth configurations? (21 rows -- reference and put somewhere else?)
- -->
+### Cycling through Configurations
+
+This example will cycle through all the dataset's configurations without rendering any images. 
+
+Each configuration will be printed to the terminal, with no images or folders generated. This will be the same process as when the dataset is generated, as this example simply sets `RENDER = False`. 
+
+From the root in this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`), run `examples/example_print_configs.py` with: 
+
+```
+blender -b blender/underwater_scene.blend --python examples/example_print_configs.py
+```
+
+You should expect an output like this in the terminal: 
 
 
-## Testing with a Sample Dataset
+INSERT PHOTO 
 
-change to testing with samples 
 
-then do sample dataset
-and another with render disabled to test it iterates through configurations correctly 
+This is a useful troubleshooting step to run to check the configurations are loading correctly, instead of rendering and reaching potential issues after hours/days. 
 
-(Add in changing export path)
-(quick test, however do still need to change the export path)
-(explained in tutorial, but some renders can be changed in python but others haven't been)
+
+
+### Generating Example Dataset 
+
+Now to finally render images! This example will render two example configurations with 30 frames each. It is currently set to render one scene in shallow, clear water, and another in shallow, murky water. It will take approximately INSERT TIME.
+
+If this is your first time rendering underwater_scene.blend then you need to **change the output paths before continuing**. Otherwise you'll hit errors. See `tutorials/exporting_blender` for further detail and instructions.
+
+From the root of this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`), run `scripts/examples/example_print_configs.py` with: 
+
+```
+blender -b blender/underwater_scene.blend --python examples/example_generate_dataset.py
+```
+
+You should expect scenes that resemble this: 
+
+| Clear, shallow water | Murky, shallow water |
+|----------------------|-----------------------------------------------------|
+| INSERT PHOTO | INSERT PHOTO |
+
+Feel free to change the features used in the script `examples/example_generate_dataset`. This may be a useful troubleshooting step to check particular configurations without rendering a complete dataset. 
+
+
 
 
 ## How to Use 
+The following sections detail how to generate and change the dataset, with tutorials from `tutorials` referenced as needed. 
 
-<!-- ### FIRST: Configuring Output Path
+Other useful tutorials in `tutorials/` involve rendering a single image/animation of the current Blender scene, converting rendered images into a video and checking the depth from .exr files. 
 
-Have to change in scripts and also in blender file, add in screenshots 
-
-or a note on making sure you have done this previously 
-suggest not saving into repo for size constraints, depending on size can upload/backup into hugging face (up to 100GB)
-
--->
-
-<!-- left it configured to export results into results folder in git repo, but change this as needed. not uploading or tracking this folder since it is large 
-blender/ in hugging face -->
+As stated previously, please change the output path for the renders if this is your first time using underwater_scene.blend on a new machine. See `tutorials/exporting_blender` for further detail and instructions.
 
 
 
-### Generate Dataset  
-<!-- Script to run automated dataset process
-- Note how number of frames can be adjusted
-- Note on how to select features 
-- Check if they want a full combinatorics nested for loops -->
+
+<!-- - Configure output path
+- Generate dataset
+- Edit/Add features (table)
+- Render single/animation of current scene
+- Convert images into video (stereo/single view)
+- Check depth 
+ -->
 
 
-### Render Animation 
+<!-- table for how to add/edit each feature, say either in Blender or in python script  -->
+
+
+
+### Generate the Dataset
+
+Run the following to generate the dataset. This process will take ~10 days, 2 hours and use 14.34 GB of storage. 
+
+```
+cd Simulated-Underwater-Depth-Dataset-Generation
+
+blender -b blender/underwater_scene.blend --python scripts/blender/generate_dataset.py
+```
+
+The number of frames per configuration is 30. This may be changed in `blender/generate_dataset.py` with the scene.frame_end variable. 
+
+The features used can be customised (edited, added, removed). See the next section. 
+
+
+### Changing the Dataset
+
+
+| Feature            | How To Customise                                                                                                                                                                                                                                                                                          |
+|--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Camera path    | Follow `tutorials/adding_camera_and_water for adding camera (and accompanying spotlight).                                                                                                                                                                                                                 |
+| Camera type        | Blender:<br>- In object settings with camera selected.<br>Python: <br>- Change focal lengths and interocular distances used with INSERT                                                                                                                                                                   |
+| Water condition    | Blender: <br>- Shader Editor of Ocean Volume object. Link the nodes as shown. (For visualising changes when editing scene) <br>Python: <br>- Change the water conditions used with in `WATER_CONDITIONS` list. (For changing dataset)<br><br>See `tutorials/adding_camera_and_water' for more information |
+| Depth              | Blender:<br>- Z height for Ocean Volume object<br>Python: <br>- Change the depths used for clear and murky water in `CLEAR_DEPTHS` and `MURKY_DEPTHS` lists in Python                                                                                                                                     |
+| Random arrangement | Python:<br>- Change number of arrangements with `NUM_RANDOM_ARRANGEMENTS` variable in Python.<br>- Change the number of possible objects with `MIN_OBJECTS`, `MAX_OBJECTS`<br>- Collision avoidance is achieved with Axis-Aligned Bounding Box method in INSERT function.                                 |
+| Objects            | Follow 'tutorials/importing_objects' for adding background and foreground objects.                                                                                                                                                                                                                        |
+
+
+
+
+
+
+
+<!-- ### Render Single Animation/Image -->
+
 
 <!-- emphasis single animation  -->
 
-### Render Single Image 
 <!-- - provide script or just set num of frames to 1 -->
 <!-- emphasis single animation  -->
 
 
-### Converting Images to Video
+
+<!-- ### Converting Images to Video -->
 <!-- useful for visualising camera trajectories empirically/qualitatively  -->
 
 <!-- single view
 stereo 
 (different files or make option in the same file?) -->
 
-### Check Depth 
+<!-- ### Check Depth 
 
+PUT INTO TUTORIAL
 
+To check that the depth .exr files are returning sensible values
 
-### How to Add Components 
+python3 scripts/misc/check_depth.py -->
 
-<!-- Describing adding into blender manually 
-then configured in python scripts
-- since easier to visualise and confirm changes, and GUI is intuitive and just much easier
-
-link useful tutorials 
-
-use things as inspiration, copy from a base and build/experiment from there  -->
 
 
 ## Notes for Improvement
@@ -338,15 +392,14 @@ use things as inspiration, copy from a base and build/experiment from there  -->
 Currently a subset of everyday ShapeNet objects have been manually selected, imported and organised into collections that are iterated over. This object import could be automated in the dataset generation script, where objects stored in the ShapeNet folder are called on each iteration. 
 
 
-Further work on determining if it is possible to change the output render path for exports from the Compositing nodes. (Benefit, would ease onboaridng process etc).
-
+Further work could be done on determining if it is possible to change the output render path for exports from the Compositing nodes. From my research I wasn't able to find a method that worked. This would ease the onboarding process if it is possible. 
 
 ## Contact: 
-<otur3695@uni.sydney.edu.au>
+Oliver Turner (Undergraduate student at USYD, finishing Sem 2 2026)
 
-Oliver Turner (UG student at USYD, finishing Sem 2 2026)
+Email: <otur3695@uni.sydney.edu.au>
 
-LinkedIn: <www.linkedin.com/in/oliver-turner-635254291>
+LinkedIn: [here](www.linkedin.com/in/oliver-turner-635254291)
 
 
 ## References

@@ -20,13 +20,15 @@ The Compositing node diagram allows for more control over the renders, including
 
 Note that screenshots are provided in Instructions. 
 
+PUT SCREENSHOTS HERE 
+
 
 
 ### Initial Configuration
 
 The .blend file is currently configured to save the raw image and raw depth renders into `results/blender_output/temp/`.
 
-The global render path can be overriden in Python but the Compositing Node render cannot. As a result, running the scripts and .blend files on a new machine will result in errors. The global renders will save correctly into the relative `results/blender_output/temp/` folder in the repo, but the Compositing Node will attempt to render to: `/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/results/blender_output/temp/`.
+The global render path is overriden in Python but the Compositing Node render is not. As a result, running the scripts and .blend files for the first time on a new machine will result in errors. The global renders will save correctly into the relative `results/blender_output/temp/` folder in the repo, but the Compositing Node will attempt to render to: `/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/results/blender_output/temp/`.
 
 Therefore, follow the instructions to change the Compositing Render path to the `results/` folder on your machine before rendering.
 
@@ -35,10 +37,22 @@ Also, the .gitignore will not push the `results/` folder, as this will quickly g
 
 ### Instructions
 
+#### Compositing Render - Raw Depth
+
+Change the Compositing Node output path in this tab by selecting the folder icon. If more output types are added, then repeat for each.
+
+
+![alt text](images/export_compositing.png)
+
+Currently not sure how to override in Python. This is a point of improvement - see *Why use a temp folder?* in FAQs.
+
+
 #### Global Render - Raw Image
 
-Change the global render output path by selecting the folder icon in this tab: 
+If desired, change the global render output path by selecting the folder icon in this tab: 
 
+
+REDO PHOTO
 ![alt text](images/export_global.png)
 
 This may also be overridden in Python with:
@@ -51,17 +65,7 @@ output_path = os.path.expanduser("results/blender_output/temp/")
 scene.render.filepath = output_path
 ```
 
-See `render_animation.py` or `render_image.py` as an example. 
-
-#### Compositing Render - Raw Depth
-
-Change the Compositing Node output path in this tab by again selecting the folder icon. If more output types are added, then repeat for each.
-
-
-![alt text](images/export_compositing.png)
-
-Currently not sure how to override in Python. This is a point of improvement - see *Why use a temp folder?* in FAQs.
-
+See `render_animation.py` or `render_image.py` in `scripts/blender` as an example.
 
 
 ### Testing Export 
@@ -97,7 +101,7 @@ Blender quit
 
 When generating a dataset, each set of frames for a configuration is saved in a nested folder structure to identify its characteristics e.g. `Approach Camera/Jerlov/Arrangement 1/<images>`.
 
-I struggled to automate this process in a Python script, where I expected to be able to index into and edit the Compositing Node outputs. So instead, I have left them to export into a temporary folder. Then, at the end of each pass, the files are moved from `temp/` into their nested folder location. Using `temp/` rather than the base `blender_output/` prevents recursive copying. 
+I struggled to automate this process for each render in a Python script, where I expected to be able to index into and edit the Compositing Node outputs. So instead, I have left them to export into a temporary folder. Then, at the end of each pass, the files are moved from `temp/` into their nested folder location. Using `temp/` rather than the base `blender_output/` prevents recursive copying. 
 
 If it is possible to override the Compositing Node output path in path, then the .blend could directly render into the desired location on each pass, rather than moving files each time. This would reduce overhead. 
 

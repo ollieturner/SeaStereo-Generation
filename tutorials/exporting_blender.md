@@ -1,8 +1,5 @@
 # TUTORIAL
 
-TO DO: 
-debugging - CHANGE TO BASH SCRIPT NAMES 
-
 ## Exporting in Blender
 
 ### Aim
@@ -12,21 +9,15 @@ This tutorial explains the Blender render setup and changes the location the ren
 The .blend file has two render output channels - the standard, global render and the custom render from the Compositing Nodes. 
 
 
-The global render is an image of the scene. Its settings are in Output Properties in the Control Panel tab (bottom right). This is where raw image is generated.
+The global render is an image of the scene. Its settings are in Output Properties in the Control Panel tab (bottom right). This is where raw RGB image is generated.
 
 
 The Compositing node diagram allows for more control over the renders, including different file types, the data included and the number of renders. Compositing in Blender is intended for intermediary, or differently layered renders. This is where raw depth is generated.
 
 
-Note that screenshots are provided in Instructions. 
-
-PUT SCREENSHOTS HERE 
-
-
-
 ### Initial Configuration
 
-The .blend file is currently configured to save the raw image and raw depth renders into `results/blender_output/temp/`.
+The underwater_scene.blend file is currently configured to save the raw RGB and depth renders into `results/blender_output/temp/`.
 
 The global render path is overriden in Python but the Compositing Node render is not. As a result, running the scripts and .blend files for the first time on a new machine will result in errors. The global renders will save correctly into the relative `results/blender_output/temp/` folder in the repo, but the Compositing Node will attempt to render to: `/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/results/blender_output/temp/`.
 
@@ -65,15 +56,13 @@ output_path = os.path.expanduser("results/blender_output/temp/")
 scene.render.filepath = output_path
 ```
 
-See `render_animation.py` or `render_image.py` in `scripts/blender` as an example.
+See `render_animation.py` or `render_image.py` in `scripts/blender/` as an example.
 
 
 ### Testing Export 
 
 
-<!-- CHANGE TO BASH SCRIPTS -->
-
-Test that exporting is working correctly by rendering a single frame - run `render_animation.py` (with scene.frame_end = 1) or `render_image.py`.  You should expect this organisation:
+Test that exporting is working correctly by rendering a single frame - run `render_animation.py` (with `scene.frame_end` = 1) or `render_image.py`.  You should expect this organisation:
 
  
 ![alt text](images/test_export_path.png)
@@ -107,7 +96,7 @@ If it is possible to override the Compositing Node output path in path, then the
 
 #### *Why is there a normalize node?*
 
-For inputting into the neural network for training, raw image and raw depth is required. Normalising the depth values is unnecessary information for the model. However, it is very useful for visualisation. Compare the two pictures below. 
+For inputting into the neural network for training, raw RGB and depth is required. Normalising the depth values is unnecessary information for the model. However, it is very useful for visualisation. Compare the two pictures below. 
 
 
 | Raw depth | Normalised depth |
@@ -125,7 +114,7 @@ When desired, connect the 'Normalize' node to the file output node and use the f
 
 My understanding is that it is not possible to disable the global render. This is a common issue faced by other Blender users (after researching in forums). 
 
-Hence, the .blend scene was corrected to output raw image from the global render, and raw depth from the Compositing Nodes. This removed an unnecessary, extra global render that had to be deleted on each run. 
+Hence, the underwater_scene.blend scene was corrected to output raw RGB image from the global render, and raw depth from the Compositing Nodes. This removed an unnecessary, extra global render that had to be deleted on each run. 
 
 
 <!-- 

@@ -1,6 +1,6 @@
 # Simulated-Underwater-Depth-Dataset-Generation
 
-Generation of simulated datasets containing raw image and raw depth of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Datasets will be used for training a neural network to recognise depth from an image, which is the basis for underwater grasping. 
+Generation of simulated datasets containing raw RGB and depth of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Datasets will be used for training a neural network to recognise depth from an image, which is the basis for underwater grasping. 
 
 
 
@@ -9,8 +9,9 @@ Generation of simulated datasets containing raw image and raw depth of diverse u
 | ![alt text](tutorials/images/arc_clear.jpg) | ![alt text](tutorials\images\clear_deep.jpg) | ![alt text](tutorials\images\murky_shallow.jpg) |
 
 
-The dataset, in terms of its size and diversity, is highly customisable. The current setup produces a dataset with 260 configurations with 5 camera paths, 4 camera paths, 8 water conditions in 1-2 depths. With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate. In total, there would be **7,800** raw RGB and depth pairs. 
+The dataset, in terms of its size and diversity, is highly customisable. The current setup produces a dataset with 260 configurations with 5 camera paths, 4 camera paths, 8 water conditions in 1-2 depths. With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate on our tested computer. In total, there would be **7,800** raw RGB and depth pairs. 
 
+The repository and Blender scenes were developed and rendered using Blender 5.0.1 on Ubuntu 24.04, with two NVIDIA GeForce RTX 3080 Ti GPUs.
 
 <!-- VIDEO NOT WORKING?  -->
 
@@ -121,8 +122,6 @@ Contact -->
 
 ## Getting Started 
 
-The repository and Blender scenes were developed and rendered using Blender 5.0.1 on Ubuntu 24.04, with two NVIDIA GeForce RTX 3080 Ti GPUs.
-
 ### Pulling the Repository
 
 In a terminal, navigate to where you want to store the repository. Then pull with: 
@@ -146,11 +145,9 @@ First, if you don't have a Hugging Face account already, make one [here](https:/
 
 Download the Hugging Face dataset from [here](https://huggingface.co/datasets/owt3/Simulated-Underwater-Depth-Dataset-Generation/tree/main). 
 
-Then move each of the folders into your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, rendering by calling the Blender file in the `blender/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub. 
+Then move each of the folders into your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, renders call the Blender file in the `blender/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub. 
 
-The local repository organisation should look like this: 
-
-INSERT SCREENSHOT 
+The expected organisation of the local repository is explained in [Repository Organisation](#repository-organisation).
 
 
 
@@ -203,11 +200,11 @@ Any version >= 4.3 is compatible (for the water conditions). Verify version with
 
 #### Learning Blender
 
-If you are new to Blender, I recommend following this [tutorial](https://www.youtube.com/watch?v=Ci3Has4L5W4) before using the Blender scene and `tutorials`. This will give a general understanding of common controls. 
+If you are new to Blender, I recommend following this [tutorial](https://www.youtube.com/watch?v=Ci3Has4L5W4). This will give a general understanding of common controls.  
 
 
 ### Downloading ShapeNetCore
-The objects of interest in the foreground are sourced from [ShapeNet](https://shapenet.org/). Select categories of objects are already downloaded and included in the previous Hugging Face dataset. These include benches, couches, bottles, bins, mugs and watercraft. 
+The objects of interest in the foreground are sourced from [ShapeNet](https://shapenet.org/). Select categories of objects are already downloaded and included in the aforementioned Hugging Face dataset. These include benches, couches, bottles, bins, mugs and watercraft. 
 
 If you'd like more ShapeNet objects, make a ShapeNet account and follow their instructions to download ShapeNetCore from their Hugging Face. Note that these two steps require an approval from ShapeNet, so allow a day for each of the approvals. 
 
@@ -221,7 +218,7 @@ Once you begin rendering, either from the automated Python scripts or directly f
 
 ## Repository Organisation 
 
-| Folder          | Description                                                                                                     |
+<!-- | Folder          | Description                                                                                                     |
 |-----------------|-----------------------------------------------------------------------------------------------------------------|
 | blender         | Blender files for underwater environments, including scene, objects and sand (from HF)                          |
 | demos           | Results to demonstrate scripts, with sub-folders for each script                                                |
@@ -229,7 +226,17 @@ Once you begin rendering, either from the automated Python scripts or directly f
 | results         | Empty folder to that Blender scene outputs into. Its contents are not tracked to avoid pushing large datasets   |
 | scripts/blender | Python scripts to run automated Blender processes e.g. generating dataset, rendering images                     |
 | scripts/misc    | Other Python scripts e.g. saving a video from rendered images                                                   |
+| tutorials       | Guided tutorials on using the Blender scene file e.g. adding cameras and objects                                | -->
+
+| Folder          | Description                                                                                                     |
+|-----------------|-----------------------------------------------------------------------------------------------------------------|
+| blender         | Blender files for underwater environments, including scene, objects and sand (from HF)                          |
+| examples        | Contains example scripts in scripts/ and expected results to compare with in results/                           |
+| results         | Empty folder to that Blender scene outputs into. Its contents are not tracked to avoid pushing large datasets   |
+| scripts/blender | Python scripts to run automated Blender processes e.g. generating dataset, rendering images                     |
+| scripts/misc    | Other Python scripts e.g. saving a video from rendered images                                                   |
 | tutorials       | Guided tutorials on using the Blender scene file e.g. adding cameras and objects                                |
+
 
 Note HF denotes folders from the Hugging Face dataset. They are ignored by the .gitignore and will not be tracked by the repository. 
 
@@ -283,11 +290,11 @@ This is a useful troubleshooting step to run to check the configurations are loa
 
 ### Generating Example Dataset 
 
-Now to finally render images! This example will render two example configurations with 30 frames each. It is currently set to render one scene in shallow, clear water, and another in shallow, murky water. It will take approximately INSERT TIME.
+Now to finally render images! This example will render two example configurations with 30 frames each. It is currently set to render one scene in shallow, clear water, and another in shallow, murky water.
 
 If this is your first time rendering underwater_scene.blend then you need to **change the output paths before continuing**. Otherwise you'll hit errors. See `tutorials/exporting_blender` for further detail and instructions.
 
-From the root of this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`), run `scripts/examples/example_print_configs.py` with: 
+From the root of this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`), run `scripts/examples/example_generate_dataset.py` with: 
 
 ```
 blender -b blender/underwater_scene.blend --python examples/example_generate_dataset.py
@@ -329,7 +336,7 @@ As stated previously, please change the output path for the renders if this is y
 
 ### Generate the Dataset
 
-Run the following to generate the dataset. This process will take ~10 days, 2 hours and use 14.34 GB of storage. 
+Run the following to generate the dataset. This process is predicted to use 14.34 GB of storage, and take ~10 days, 2 hours on our machine (time will vary with different computers/GPUs). 
 
 ```
 cd Simulated-Underwater-Depth-Dataset-Generation
@@ -337,7 +344,7 @@ cd Simulated-Underwater-Depth-Dataset-Generation
 blender -b blender/underwater_scene.blend --python scripts/blender/generate_dataset.py
 ```
 
-The number of frames per configuration is 30. This may be changed in `blender/generate_dataset.py` with the scene.frame_end variable. 
+The number of frames per configuration is 30. This may be changed in `blender/generate_dataset.py` with the `scene.frame_end` variable. 
 
 The features used can be customised (edited, added, removed). See the next section. 
 
@@ -347,12 +354,12 @@ The features used can be customised (edited, added, removed). See the next secti
 
 | Feature            | How To Customise                                                                                                                                                                                                                                                                                          |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Camera path    | Follow `tutorials/adding_camera_and_water for adding camera (and accompanying spotlight).                                                                                                                                                                                                                 |
+| Camera path    | Follow `tutorials/adding_camera_and_water` for adding camera (and accompanying spotlight).                                                                                                                                                                                                                 |
 | Camera type        | Blender:<br>- In object settings with camera selected.<br>Python: <br>- Change focal lengths and interocular distances used with INSERT                                                                                                                                                                   |
-| Water condition    | Blender: <br>- Shader Editor of Ocean Volume object. Link the nodes as shown. (For visualising changes when editing scene) <br>Python: <br>- Change the water conditions used with in `WATER_CONDITIONS` list. (For changing dataset)<br><br>See `tutorials/adding_camera_and_water' for more information |
-| Depth              | Blender:<br>- Z height for Ocean Volume object<br>Python: <br>- Change the depths used for clear and murky water in `CLEAR_DEPTHS` and `MURKY_DEPTHS` lists in Python                                                                                                                                     |
+| Water condition    | Blender: <br>- Shader Editor of Ocean Volume object. Link the nodes as shown. (For visualising changes when editing scene) <br>Python: <br>- Change the water conditions used with in `WATER_CONDITIONS` list. (For changing dataset)<br><br>See `tutorials/adding_camera_and_water` for more information |
+| Depth              | Blender:<br>- Z height for Ocean Volume object (offset of -25m in Blender = 0 depth) <br>Python: <br>- Change the depths used for clear and murky water in `CLEAR_DEPTHS` and `MURKY_DEPTHS` lists in Python                                                                                                                                     |
 | Random arrangement | Python:<br>- Change number of arrangements with `NUM_RANDOM_ARRANGEMENTS` variable in Python.<br>- Change the number of possible objects with `MIN_OBJECTS`, `MAX_OBJECTS`<br>- Collision avoidance is achieved with Axis-Aligned Bounding Box method in INSERT function.                                 |
-| Objects            | Follow 'tutorials/importing_objects' for adding background and foreground objects.                                                                                                                                                                                                                        |
+| Objects            | Follow `tutorials/importing_objects` for adding background and foreground objects.                                                                                                                                                                                                                        |
 
 
 
@@ -404,4 +411,9 @@ LinkedIn: [here](www.linkedin.com/in/oliver-turner-635254291)
 
 ## References
 
-<!-- SHAPENET -->
+A. X. Chang, T. Funkhouser, L. Guibas, P. Hanrahan,
+Q. Huang, Z. Li, S. Savarese, M. Savva, S. Song, H. Su,
+J. Xiao, L. Yi, and F. Yu. ShapeNet: An Information-Rich
+3D Model Repository. Technical Report arXiv:1512.03012
+[cs.GR], Stanford University — Princeton University —
+Toyota Technological Institute at Chicago, 2015.

@@ -16,30 +16,23 @@ The cameras are also accompanied by a light. This light is placed just to the ri
 
 In clear water conditions, a bright, wide beam spotlight is used.
 
-PHOTO
-
+![alt text](images/clear_deep.jpg)
 
 The same beam cannot be used in murky conditions, as the light is washed out, or appears as a big flash, due to backscattering. Instead, as used in real dives in murky conditions, a narrow, high intensity beam is used (from [here](https://incredibleunderwaterlights.com/best-underwater-dock-lights-for-clear-vs-murky-water-whats-the-difference/?srsltid=AfmBOoobJ9waNBRJKu1PwbfEWVRJJk9xkTmqYbTxg4dH-j033j7o1NfY)). This relies on the camera movement for different parts of the scene to get illuminated. 
 
-PHOTO OF BAD CLEAR LIGHT
-PHOTO OR MURKY LIGHT
+![alt text](images/murky_shallow.jpg)
 
+The water conditions are distinguished by their volume coefficients, which control the extent to which light is *Absorbed* and *Scattered*. They are accessed by viewing the Shader Editor with the Ocean Volume selected. Alexandre Cardaillac at ACFR developed these water conditions.
 
+![alt text](images/volume_screenshot.png)
 
-The water conditions are distinguished by their volume coefficients, which control the extent to which light is *Absorbed* and *Scattered*. These were developed by Alexandre Cardaillac at ACFR. 
-
-INSERT PHOTO EXAMPLE
 
 
 ### Initial Configuration
 
 #### Cameras and Lights
 
-This is the current setup with cameras and lights. 
-
-SCREENSHOT OF BLENDER COLLECTIONS 
-
-![alt text](image.png)
+The current setup organises cameras and spotlights into two collections - Cameras and Camera Lights. Open `blender/underwater_scene.blend` to view this. 
 
 Take note of the naming convention - follow this same pattern so the automated dataset generation scripts can correctly identify the cameras and the corresponding lights. Use the same name to pair spotlights with the correct camera.
 
@@ -48,11 +41,7 @@ Take note of the naming convention - follow this same pattern so the automated d
 - Murky Spotlight: Murky \<NAME\> Spot
 
 
-The spotlights have the following settings. The Clear spotlight was based on Blender's suggested settings for a car headlight ([here](https://docs.blender.org/manual/en/latest/render/lights/light_object.html)), whilst the Murky spotlight was achieved after experimentation with a narrow, intense beam. 
-
-| Clear Spotlight | Murky Spotlight |
-|------------------------------|----------------------------------|
-| INSERT PHOTO | INSERT PHOTO |
+The Clear spotlight was based on Blender's suggested settings for a car headlight ([here](https://docs.blender.org/manual/en/latest/render/lights/light_object.html)), whilst the Murky spotlight was achieved after experimentation with a narrow, intense beam. The settings can be seen in the light's object settings when the light is selected. 
 
 
 #### Water Conditions
@@ -72,7 +61,7 @@ This is the organisation of the water conditions into clear and murky. Intuitive
 | Murky        | Jerlov.006   | Jerlov 3C   | Murky |
 
 
-A couple of water conditions (Jerlov 7C and Jerlov 9C) are not used at all since they too murky. The murky water conditions are only used for shallow depths (<5m), as it becomes too dark any further. Clear water conditions are used at all depths. 
+A couple of water conditions (Jerlov 7C and Jerlov 9C) are not used at all since they too murky (they are still present in the Shader Editor). The murky water conditions are only used for shallow depths (<5m), as it becomes too dark any further. Clear water conditions are used at all depths. 
 
 ### Instructions
 
@@ -80,11 +69,11 @@ Select a camera in the Cameras collection, then copy and paste a new version. Re
 
 Then in the Camera Lights collection, select an existing Clear spotlight. Copy, paste, rename and delete the new camera that pops up with it. With the spotlight selected, navigate to Constraints and select the camera as Target (see photo below).
 
-![alt text](image-1.png)
+![alt text](images/camera_spotlight.png)
 
 This will make the light the child of the camera, so it will move with the camera. Since it is copying existing spotlights, it will move to the same, pre-configured position (just to the right and back of the camera). Repeat for the Murky spotlight.
 
-To animate particular camera movements/paths, insert keyframes in the Timeline menu when the camera is at different positions. Follow the cookie tutorial in the Learning Blender section of the repo README. For more complicated movements, like an orbit, research for video tutorials - there are lots for anything you want to do!
+To animate particular camera movements/paths, insert keyframes in the Timeline menu when the camera is at different positions. Follow the [cookie tutorial](https://www.youtube.com/watch?v=Ci3Has4L5W4) in the Learning Blender section of the repo README. For more complicated movements, like an orbit, research for video tutorials - there are lots for anything you want to do!
 
 A useful tip is viewing the scene from the camera's perspective. Then by locking the perspective, the camera will move as you move in this frame (be sure to unlock when finished). 
 

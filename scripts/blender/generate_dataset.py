@@ -65,7 +65,7 @@ BASE_SAVE_PATH = "results/blender_output/"
 
 WATER_CONDITIONS = [
     ("Jerlov",     "Jerlov I"),
-    # ("Jerlov.001", "Jerlov IA"),
+    ("Jerlov.001", "Jerlov IA"),
     ("Jerlov.005", "Jerlov IB"),        # Clearest ones ^ 
     ("Jerlov.004", "Jerlov II"),
     ("Jerlov.003", "Jerlov IC"),        # Slightly murky but still clear. Use Clear camera spotlight ^ 
@@ -141,6 +141,15 @@ for subcol in objects_collection.children:
 if len(all_objects) < MAX_OBJECTS:
     raise RuntimeError("Not enough objects to sample from")
 
+
+# Check resolution 
+res_x = scene.render.resolution_x
+res_y = scene.render.resolution_y
+res_pct = scene.render.resolution_percentage
+
+print(f"Render resolution: {res_x} x {res_y}")
+print(f"Resolution percentage: {res_pct}%")
+
 # -----------------------------
 # TEMP OUTPUT
 # -----------------------------
@@ -148,7 +157,7 @@ temp_output = os.path.join(BASE_SAVE_PATH, "temp")
 os.makedirs(temp_output, exist_ok=True)
 
 scene.frame_start = 1
-scene.frame_end = 30
+scene.frame_end = 1
 
 # Compositor node tree
 tree_name = "Render Output"

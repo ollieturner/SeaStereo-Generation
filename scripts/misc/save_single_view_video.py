@@ -16,32 +16,23 @@ import glob
 import os
 
 # Define source of images 
-base_folder = "/home/otur3695/Documents/Blender/results/orbit 240 frames"
+# base_folder = "/home/otur3695/Documents/Blender/results/orbit 240 frames"
 # base_folder = "/home/otur3695/Documents/Blender/results/orbit 240 frames/delete_global"
-
+base_folder = "results/blender_output/temp"
 
 # Make video folder to save into 
 video_folder = os.path.join(base_folder, "single view videos")
 os.makedirs(video_folder, exist_ok=True)
 
 # Define desired FPS 
-fps = 24
+fps = 48
 
 # Define mp4 format 
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
 # Select image type 
-image_type = "raw image*_L.jpg"
+image_type = "*_L.jpg"
 video_name = "raw_image_L"
-
-# "raw image*_L.jpg"
-# "raw image*_R.jpg"
-# "raw depth*_L.tif"
-# "raw depth*_L.tif"
-# "normalized depth*_L.tif"
-# "normalized depth*_R.tif"
-# image_type = "0*_L.jpg"
-# video_name = "global_image_L"
  
 # Find frames
 frames = sorted(glob.glob(os.path.join(base_folder, image_type)))
@@ -57,7 +48,7 @@ h, w, _ = img.shape
 out_size = (w, h)
 
 # Video writer
-out_path = os.path.join(video_folder, f"{video_name}_single view.mp4")
+out_path = os.path.join(video_folder, f"{video_name}_single_view.mp4")
 writer = cv2.VideoWriter(out_path, fourcc, fps, out_size)
 
 # Read and save each frame to video

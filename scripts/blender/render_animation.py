@@ -51,8 +51,8 @@ print(f"Resolution percentage: {res_pct}%")
 # Resolution override (optional)
 # Uncomment to force resolution
 # ----------------------------
-scene.render.resolution_x = 640 # 1920 # 854
-scene.render.resolution_y = 480 # 1080 # 480
+scene.render.resolution_x = 1920 # 40 # 1920 # 854
+scene.render.resolution_y = 1080 # 480 # 1080 # 480
 scene.render.resolution_percentage = 100
 
 # DO 640 x 480
@@ -77,7 +77,7 @@ scene.render.filepath = output_path
 
 # Set frame range (limit for demos)
 scene.frame_start = 1
-scene.frame_end = 240
+scene.frame_end = 1
 
 # Render animation
 bpy.ops.render.render(animation=True)

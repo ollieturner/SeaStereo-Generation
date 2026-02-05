@@ -1,6 +1,6 @@
 # Simulated-Underwater-Depth-Dataset-Generation
 
-Generation of simulated datasets containing raw RGB and depth of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Datasets will be used for training a neural network to recognise depth from an image, which is the basis for underwater grasping. 
+Generation of simulated datasets containing raw RGB and depth images of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Datasets will be used for training a neural network to recognise depth from an image, which is the basis for underwater grasping. 
 
 
 
@@ -9,7 +9,7 @@ Generation of simulated datasets containing raw RGB and depth of diverse underwa
 | ![alt text](tutorials/images/arc_clear.jpg) | ![alt text](tutorials/images/clear_deep.jpg) | ![alt text](tutorials/images/murky_shallow.jpg) |
 
 
-The dataset, in terms of its size and diversity, is highly customisable. The current setup produces a dataset with 260 configurations with 5 camera paths, 4 camera paths, 8 water conditions in 1-2 depths. With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate on our tested computer. In total, there would be **7,800** raw RGB and depth pairs. 
+The dataset, in terms of its size and diversity, is **customisable**. The current setup produces a dataset with 260 configurations with 5 camera paths, 4 camera paths, 8 water conditions in 1-2 depths. With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate on our tested computer. In total, there would be **7,800** raw RGB and depth pairs. 
 
 The repository and Blender scenes were developed and rendered using Blender 5.0.1 on Ubuntu 24.04, with two NVIDIA GeForce RTX 3080 Ti GPUs.
 
@@ -272,7 +272,7 @@ This example will cycle through all the dataset's configurations without renderi
 
 Each configuration will be printed to the terminal, with no images or folders generated. This will be the same process as when the dataset is generated, as this example simply sets `RENDER = False`. 
 
-From the root in this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`), run `examples/example_print_configs.py` with: 
+From the root of this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`), run `examples/example_print_configs.py` with: 
 
 ```
 blender -b blender/underwater_scene.blend --python examples/example_print_configs.py
@@ -367,7 +367,7 @@ Feel free to change the features used in the script `examples/example_generate_d
 
 
 ## How to Use 
-The following sections detail how to generate and change the dataset, with tutorials from `tutorials` referenced as needed. 
+The following sections detail how to generate and change the dataset, with tutorials referenced as needed. 
 
 Other useful tutorials in `tutorials/` involve rendering a single image/animation of the current Blender scene, converting rendered images into a video and checking the depth from .exr files. 
 
@@ -399,7 +399,7 @@ cd Simulated-Underwater-Depth-Dataset-Generation
 blender -b blender/underwater_scene.blend --python scripts/blender/generate_dataset.py
 ```
 
-The number of frames per configuration is 30. This may be changed in `blender/generate_dataset.py` with the `scene.frame_end` variable. 
+The number of frames per configuration is 30. This may be changed in `blender/generate_dataset.py` with the `frame_end` variable. 
 
 The features used can be customised (edited, added, removed). See the next section. 
 
@@ -410,10 +410,10 @@ The features used can be customised (edited, added, removed). See the next secti
 | Feature            | How To Customise                                                                                                                                                                                                                                                                                          |
 |--------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Camera path    | Follow `tutorials/adding_camera_and_water` for adding camera (and accompanying spotlight).                                                                                                                                                                                                                 |
-| Camera type        | Blender:<br>- In object settings with camera selected.<br>Python: <br>- Change focal lengths and interocular distances used with INSERT                                                                                                                                                                   |
+| Camera type        | Blender:<br>- In object settings with camera selected.<br>Python: <br>- Change focal lengths and interocular distances used with FOCAL_LENGTHS and INTEROCULAR_DIST                                                                                                                                                                   |
 | Water condition    | Blender: <br>- Shader Editor of Ocean Volume object. Link the nodes as shown. (For visualising changes when editing scene) <br>Python: <br>- Change the water conditions used with in `WATER_CONDITIONS` list. (For changing dataset)<br><br>See `tutorials/adding_camera_and_water` for more information |
-| Depth              | Blender:<br>- Z height for Ocean Volume object (offset of -25m in Blender = 0 depth) <br>Python: <br>- Change the depths used for clear and murky water in `CLEAR_DEPTHS` and `MURKY_DEPTHS` lists in Python                                                                                                                                     |
-| Random arrangement | Python:<br>- Change number of arrangements with `NUM_RANDOM_ARRANGEMENTS` variable in Python.<br>- Change the number of possible objects with `MIN_OBJECTS`, `MAX_OBJECTS`<br>- Collision avoidance is achieved with Axis-Aligned Bounding Box method in INSERT function.                                 |
+| Depth              | Blender:<br>- Z height for Ocean Volume object (offset of -25m in Blender = 0 depth) <br>Python: <br>- Change the depths used for clear and murky water in `CLEAR_Z_OFFSETS` and `MURKY_Z_OFFSETS` lists in Python                                                                                                                                     |
+| Random arrangement | Python:<br>- Change number of arrangements with `NUM_RANDOM_ARRANGEMENTS` variable in Python.<br>- Change the number of possible objects with `MIN_OBJECTS`, `MAX_OBJECTS`<br>- Collision avoidance is achieved with Axis-Aligned Bounding Box method in rand_arrange_objects() function.                                 |
 | Objects            | Follow `tutorials/importing_objects` for adding background and foreground objects.                                                                                                                                                                                                                        |
 
 

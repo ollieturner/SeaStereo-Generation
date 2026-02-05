@@ -24,7 +24,7 @@ import helper_funcs_gen_dataset as func
 
 ## CUSTOMISE: RENDER PROPERTIES
 # Set render flag 
-RENDER = False
+RENDER = False # True
 BASE_SAVE_PATH = "results/blender_output/"
 frame_start = 1
 frame_end = 1

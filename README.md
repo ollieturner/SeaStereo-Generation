@@ -280,8 +280,63 @@ blender -b blender/underwater_scene.blend --python examples/example_print_config
 
 You should expect an output like this in the terminal: 
 
+<pre>Blender 5.0.1 (hash a3db93c5b259 built 2025-12-16 01:30:59)
+00:01.608  blend            | Read blend: &quot;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend&quot;
+DATASET GENERATION FOR SIMULATED UNDERWATER SCENES
 
-INSERT PHOTO 
+---RENDER PROPERTIES---
+Rendering enabled: False
+Number of frames per configuration: 1
+Renders will save into: results/blender_output/
+Render resolution: 640 x 480
+Resolution percentage: 100%
+
+---DATASET FEATURES---
+Available cameras:
+  - Approach_Retreat Camera
+  - Arc Camera
+  - Approach_Diag Camera
+  - Orbit Camera
+Camera types: 
+  Focal lengths: 1.3mm, 2.0mm
+  Interocular distances: 0.05mm, 0.07mm
+Water conditions:
+  - Jerlov I
+  - Jerlov IA
+  - Jerlov IB
+  - Jerlov II
+  - Jerlov IC
+  - Jerlov III
+  - Jerlov 5C
+  - Jerlov 3C
+Depths (real-world):
+  Clear water depths: [5, 20] m
+  Murky water depths: [2] m
+Object placement:
+  Objects per scene: 3–5
+  Random arrangements per configuration: 1
+  Foreground grid: -1.5 m to 1.5 m (X/Y)
+
+With the current settings, this will take ~10 days, 2 hours to render
+and use ~14.34 GB of storage.
+Use Ctrl+C to cancel at any time.
+
+Proceed with dataset generation? (y/n): y
+Confirmed. Starting dataset generation
+
+Use Ctrl+C to cancel at anytime
+
+
+=== Camera: Approach_Retreat Camera ===
+
+--- Water condition: Jerlov I (Jerlov) ---
+Enabled light: Clear Approach_Retreat Spot
+Switched water condition to Jerlov I
+Set Ocean Volume Z to: 5 m depth
+Random arrangement 1
+Set Ocean Volume Z to: 20 m depth
+Random arrangement 1</pre>
+
 
 
 This is a useful troubleshooting step to run to check the configurations are loading correctly, instead of rendering and reaching potential issues after hours/days. 

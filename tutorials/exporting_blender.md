@@ -42,8 +42,6 @@ Currently not sure how to override in Python. This is a point of improvement - s
 
 If desired, change the global render output path by selecting the folder icon in this tab: 
 
-
-REDO PHOTO
 ![alt text](images/export_global.png)
 
 This may also be overridden in Python with:

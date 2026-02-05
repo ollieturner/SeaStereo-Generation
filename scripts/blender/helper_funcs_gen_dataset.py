@@ -3,6 +3,7 @@ import os
 import random
 import math
 import shutil
+import mathutils  
 
 
 
@@ -221,23 +222,66 @@ def choose_depth_type(water_type, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS):
     return z_offsets
 
 
-def rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MIN, GRID_MAX):
+# Randomly arrange objects and use AABB collision avoidance to prevent overlap - inspired by 
+def rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MIN, GRID_MAX, MAX_TRIES=100):
     print(f"Random arrangement {arr_idx}")
-    # --- Initially disable all objects for render ---
+
+    # Hide all objects initially
     for obj in all_objects:
         obj.hide_render = True
+        # obj.hide_viewport = True  # Uncomment for Blender viewport
 
-    # --- randomly select objects ---
-    NUM_OBJECTS = random.randint(MIN_OBJECTS, MAX_OBJECTS)  # 3-5 objects
-    selected_objects = random.sample(all_objects, NUM_OBJECTS)
+    NUM_OBJECTS = random.randint(MIN_OBJECTS, MAX_OBJECTS)
+    placed_objects = []  # track placed object AABBs
+    depsgraph = bpy.context.evaluated_depsgraph_get()
+    
+    available_objects = all_objects.copy()
+    random.shuffle(available_objects)
+    
+    objects_placed_count = 0
 
-    # Randomize objects positions within foreground grid, keep original Z
-    for obj in selected_objects:
-        obj.hide_render = False
-        obj.location.x = random.uniform(GRID_MIN, GRID_MAX)
-        obj.location.y = random.uniform(GRID_MIN, GRID_MAX)
-        rot = random.uniform(0, 2*math.pi)
-        obj.rotation_euler.z = rot
+    # Loop until NUM_OBJECTS placed or all objects have been tried
+    while available_objects and objects_placed_count < NUM_OBJECTS:
+        obj = available_objects.pop(0)
+
+        for _ in range(MAX_TRIES):
+            # Random rotation
+            obj.rotation_euler.z = random.uniform(0, 2 * math.pi)
+
+            # Evaluate object with new rotation/scale
+            eval_obj = obj.evaluated_get(depsgraph)
+
+            # World-space bbox
+            bbox = [eval_obj.matrix_world @ mathutils.Vector(corner)
+                    for corner in eval_obj.bound_box]
+            x_coords = [v.x for v in bbox]
+            y_coords = [v.y for v in bbox]
+            width = max(x_coords) - min(x_coords)
+            depth = max(y_coords) - min(y_coords)
+
+            # Random position within grid
+            x = random.uniform(GRID_MIN + width / 2, GRID_MAX - width / 2)
+            y = random.uniform(GRID_MIN + depth / 2, GRID_MAX - depth / 2)
+
+            # Check overlap
+            overlap = False
+            for px, py, pw, pd in placed_objects:
+                if abs(x - px) * 2 < (width + pw) and abs(y - py) * 2 < (depth + pd):
+                    overlap = True
+                    break
+
+            # Place object if there's no overlap, otherwise try next one
+            if not overlap:
+                # Place object
+                obj.location.x = x
+                obj.location.y = y
+                obj.hide_render = False
+                # obj.hide_viewport = False  # Uncomment for Blender viewport
+
+                placed_objects.append((x, y, width, depth))
+                objects_placed_count += 1
+                break
+
 
 def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_depth, arr_idx):
     # Render everything to the temp folder

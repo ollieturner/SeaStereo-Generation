@@ -84,15 +84,6 @@ A useful tip is viewing the scene from the camera's perspective. Then by locking
 
 
 
-<!-- photos:  -->
-<!-- - lock view perspective (N, then toggle padlock) 
-![alt text](image-2.png)
-![alt text](image-3.png) -->
-<!-- - photo of collections
-![alt text](image.png) -->
-<!-- - then photo of making it child of  -->
-<!-- ![alt text](image-1.png) -->
-
 
 ### Testing Camera and Lights
 

@@ -4,6 +4,10 @@
 
 
 # --- RUN INSTRUCTIONS ---
+# From root of repo
+# blender -b blender/underwater_scene.blend --python scripts/blender/render_animation.py
+
+
 # Note the file paths are still hardcoded
 
 # From anywhere:
@@ -13,7 +17,6 @@
 # From inside folder with script: 
 # blender -b /home/otur3695/Documents/Blender/underwater_scene.blend --python render_animation.py
 
-# blender -b blender/underwater_scene.blend --python scripts/blender/render_animation.py
 
 
 # --- TO DO ---

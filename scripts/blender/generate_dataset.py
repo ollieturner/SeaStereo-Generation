@@ -5,14 +5,10 @@
 # blender -b blender/underwater_scene.blend --python scripts/blender/generate_dataset.py
 
 
-# TO DO 
-# Add in collision avoidance
-# Add in changing camera properties 
-
-
 # Import libraries 
 import os
 import sys
+import itertools
 
 # Define the script directory to import helper functions 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -23,11 +19,10 @@ import helper_funcs_gen_dataset as func
 
 
 ## CUSTOMISE: RENDER PROPERTIES
-# Set render flag 
-RENDER = False # True
+RENDER = True
 BASE_SAVE_PATH = "results/blender_output/"
 frame_start = 1
-frame_end = 1
+frame_end = 30
 res_x = 640
 res_y = 480
 res_pct = 100
@@ -37,8 +32,8 @@ scene, temp_output = func.apply_render_props(BASE_SAVE_PATH, frame_start, frame_
 
 
 ## CUSTOMISE: DATASET FEATURES
-FOCAL_LENGTHS = [1.3, 2.0]
-INTEROCULAR_DIST = [0.05, 0.07]
+FOCAL_LENGTHS = [1.5, 2.5]
+INTEROCULAR_DIST = [0.04, 0.08]
 
 WATER_CONDITIONS = [
     ("Jerlov",     "Jerlov I",   "Clear"),
@@ -48,7 +43,7 @@ WATER_CONDITIONS = [
     ("Jerlov.003", "Jerlov IC",  "Clear"),   
     ("Jerlov.002", "Jerlov III", "Murky"),
     ("Jerlov.007", "Jerlov 5C",  "Murky"),
-    ("Jerlov.006", "Jerlov 3C",  "Murky"),
+    ("Jerlov.006", "Jerlov 3C",  "Murky")
     # ("Jerlov.008", "Jerlov 7C"),      # Too murky, can't see anything 
     # ("Jerlov.009", "Jerlov 9C")
 ]
@@ -75,7 +70,6 @@ func.print_render_msg(RENDER, frame_end, BASE_SAVE_PATH, res_x, res_y, res_pct)
 func.print_dataset_msg(camera_collection, FOCAL_LENGTHS, INTEROCULAR_DIST, WATER_CONDITIONS, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS, MIN_OBJECTS, MAX_OBJECTS, NUM_RANDOM_ARRANGEMENTS, GRID_MIN, GRID_MAX)
 func.get_confirmation()
 
-
 # Get the ocean volume object and initial nodes, links for water conditions
 ocean_obj, nodes, links, vol = func.get_ocean_obj(ocean_collection)
 
@@ -89,32 +83,39 @@ for cam_obj in camera_collection.objects:
     if not func.get_camera(cam_obj, scene):
         continue
 
-    # Iterate over water conditions
-    for frame_name, label, water_type in WATER_CONDITIONS:
-        print(f"\n--- Water condition: {label} ({frame_name}) ---")
+    # Iterate over camera types
+    for focal, interoc in itertools.product(FOCAL_LENGTHS, INTEROCULAR_DIST):
+        # Set the camera parameters (focal length, interocular distance)
+        func.set_camera_params(cam_obj, focal, interoc)
 
-        func.enable_spotlight(light_collection, cam_obj, water_type)
+        # Iterate over water conditions
+        for frame_name, label, water_type in WATER_CONDITIONS:
+            # Choose the correct spotlight for the clear/murky water
+            spotlight = func.enable_spotlight(light_collection, cam_obj, water_type)
 
-        func.switch_water_condition(nodes, frame_name, vol, links, label)
-        
-        # Select either CLEAR or MURKY depths
-        z_offsets = func.choose_depth_type(water_type, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS)
+            # Switch the water condition
+            func.switch_water_condition(nodes, frame_name, vol, links, label)
+            
+            # Select either CLEAR or MURKY depths
+            z_offsets = func.choose_depth_type(water_type, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS)
 
-        # Iterate over Z depths
-        for z in z_offsets:
-            ocean_obj.location.z = z
-            real_depth = func.blender_z_to_real_depth(z)
+            # Iterate over Z depths
+            for z in z_offsets:
+                ocean_obj.location.z = z
+                real_depth = func.blender_z_to_real_depth(z)
 
-            print(f"Set Ocean Volume Z to: {real_depth} m depth")
+                # Iterate over number of random arrangements
+                for arr_idx in range(1, NUM_RANDOM_ARRANGEMENTS+1):
+                    
+                    # Randomly arrange the object with AABB collision avoidance
+                    func.rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MIN, GRID_MAX)
 
-            # Iterate over number of random arrangements
-            for arr_idx in range(1, NUM_RANDOM_ARRANGEMENTS+1):
-                
-                func.rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MIN, GRID_MAX)
+                    # Print out the current configuration settings to terminal
+                    func.print_render_config(cam_obj, focal, interoc, spotlight, label, frame_name, real_depth, arr_idx)
 
-                # Render the courrent configuration
-                if RENDER:
-                    func.render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_depth, arr_idx)
+                    # Render the courrent configuration
+                    if RENDER:
+                        func.render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_depth, arr_idx, focal=focal, interoc=interoc)
 
 # Finished
 print("\nDataset generation complete!")

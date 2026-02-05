@@ -25,7 +25,6 @@ def apply_render_props(BASE_SAVE_PATH, frame_start, frame_end, res_x, res_y, res
     scene.render.resolution_percentage = res_pct
 
     # Set the compositor node tree
-    # tree_name = "Render Output"
     tree = bpy.data.node_groups.get(tree_name)
     if not tree or tree.bl_idname != "CompositorNodeTree":
         raise RuntimeError(f"Compositor node tree '{tree_name}' not found or is not a compositor")
@@ -48,10 +47,6 @@ def get_collections():
         raise RuntimeError("Ocean collection not found")
     if not objects_collection:
         raise RuntimeError("Everyday Objects collection not found")
-
-    # ocean_obj = ocean_collection.objects.get("Ocean Volume")
-    # if not ocean_obj:
-    #     raise RuntimeError("Ocean Volume object not found in 'Ocean' collection")
 
     return camera_collection, light_collection, ocean_collection, objects_collection
 
@@ -93,7 +88,7 @@ def print_dataset_msg(camera_collection, FOCAL_LENGTHS, INTEROCULAR_DIST, WATER_
     for _, label, _ in WATER_CONDITIONS:
         print(f"  - {label}")
 
-    # Depths (printed in real-world meters)
+    # Depths (printed in real-world metres)
     print("Depths (real-world):")
 
     clear_depths = [blender_z_to_real_depth(z) for z in CLEAR_Z_OFFSETS]
@@ -166,9 +161,14 @@ def get_camera(cam_obj, scene):
         return False
 
     scene.camera = cam_obj
-    print(f"\n=== Camera: {cam_obj.name} ===")
     return True
 
+
+
+def set_camera_params(cam_obj, focal, interoc):
+    # Set camera parameters
+    cam_obj.data.lens = focal
+    cam_obj.data.stereo.interocular_distance = interoc
 
 
 def enable_spotlight(light_collection, cam_obj, water_type):
@@ -184,9 +184,10 @@ def enable_spotlight(light_collection, cam_obj, water_type):
     # Enable correct spotlight
     if spotlight:
         spotlight.hide_render = False
-        print(f"Enabled light: {spotlight.name}")
     else:
         print(f"Warning: no matching {water_type} spotlight found for {cam_obj.name}")
+
+    return spotlight
 
 
 def switch_water_condition(nodes, frame_name, vol, links, label):
@@ -210,8 +211,6 @@ def switch_water_condition(nodes, frame_name, vol, links, label):
     except Exception as e:
         print(f"Failed to connect nodes for {frame_name}: {e}")
 
-    print(f"Switched water condition to {label}")
-
 
 def choose_depth_type(water_type, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS):
     if water_type == "Clear":
@@ -224,7 +223,6 @@ def choose_depth_type(water_type, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS):
 
 # Randomly arrange objects and use AABB collision avoidance to prevent overlap - inspired by 
 def rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MIN, GRID_MAX, MAX_TRIES=100):
-    print(f"Random arrangement {arr_idx}")
 
     # Hide all objects initially
     for obj in all_objects:
@@ -282,16 +280,26 @@ def rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MI
                 objects_placed_count += 1
                 break
 
+def print_render_config(cam_obj, focal, interoc, spotlight, label, frame_name, real_depth, arr_idx):
+    print("\nRender with: ")
+    print(f" {cam_obj.name}")
+    print(f" Focal length: {focal}mm")
+    print(f" Interocular distance: {interoc}mm")
+    print(f" Enabled light: {spotlight.name}")
+    print(f" Water condition: {label} ({frame_name})")
+    print(f" Ocean volume depth: {real_depth} m")
+    print(f" Random arrangement: {arr_idx}")
 
-def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_depth, arr_idx):
-    # Render everything to the temp folder
+def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_depth, arr_idx, focal=None, interoc=None):
     scene.render.filepath = temp_output + "/"
     bpy.ops.render.render(animation=True)
 
-    # Move outputs to Camera/Water/Z/Arrangement folder
+    # Folder structure: Camera / Focal / Interocular / Water / Depth / Arrangement
     cam_water_z_folder = os.path.join(
         BASE_SAVE_PATH,
         cam_obj.name,
+        f"Focal_{focal}mm",
+        f"Interoc_{interoc}m",
         frame_name,
         f"Depth_{real_depth}m",
         f"Arrangement_{arr_idx}"
@@ -308,7 +316,6 @@ def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_
                 os.remove(dst)
         shutil.move(src, dst)
 
-    # Recreate temp folder for next render
     os.makedirs(temp_output, exist_ok=True)
-
     print(f"Saved outputs to: {cam_water_z_folder}")
+

@@ -249,7 +249,9 @@ The **features types and quantities are customisable**. They can be edited eithe
 
 | **Camera Paths**                                                          | **Camera Types**                                                                                                                                                                       | **Water Conditions**                                                                                                                         | **Depths**                                     | **Random Arrangements** |
 |---------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|-------------------------|
-| Approach and retreat<br>Arc <br>Horizontal pan<br>Orbit <br>Top-view pan  | Low focal length (1.3mm), low interocular (INSERT)<br>High focal length (2.2mm), high interocular (INSERT)<br>Low focal length, high interocular<br>High focal length, low interocular | Clear: <br>- Jerlov<br>- Jerlov IA<br>- Jerlov IB<br>- Jerlov II<br>- Jerlov IC<br><br>Murky: <br>- Jerlov III<br>- Jerlov 5C<br>- Jerlov 3C | Clear:<br>- 5m<br>- 20m <br><br>Murky:<br>- 2m | 1 random arrangement    |
+| Approach and retreat<br>Arc <br>Horizontal pan<br>Orbit <br>Top-view pan  | Low focal length (1.5mm), low interocular (0.04mm)<br>High focal length (2.5mm), high interocular (0.08mm)<br>Low focal length, high interocular<br>High focal length, low interocular | Clear: <br>- Jerlov<br>- Jerlov IA<br>- Jerlov IB<br>- Jerlov II<br>- Jerlov IC<br><br>Murky: <br>- Jerlov III<br>- Jerlov 5C<br>- Jerlov 3C | Clear:<br>- 5m<br>- 20m <br><br>Murky:<br>- 2m | 1 random arrangement    |
+
+With an image width of 640 pixels and sensor width of 6.7mm, the low and high focal lengths may also be expressed as 143 and 239 pixel units, respectively. 
 
 The dataset produces raw RGB and depth images (.jpg, .exr respectively). With a left and right camera for the stereo setup, this means one rendered frame of the scene outputs 4 images. 
 
@@ -257,11 +259,11 @@ One rendered frame (4 images) is ~1.8 MB. The time for one render is ~1-2mins - 
 
 With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate. In total, there would be **7,800** raw RGB and depth pairs. 
 
-An example of the folder organisation after the dataset is generated is provided below. Each render is indexed in by its configuration settings. 
+An example of the folder organisation after the dataset is generated is provided below. Each render is indexed by its configuration settings. 
 
 ![alt text](tutorials/images/dataset_characteristics_org.png)
 
-Note that this example is for just one camera and one render. However the file organisation extends similarly for successive cameras and renders. 
+The file organisation extends similarly for successive cameras and renders. 
 
 
 ## Testing with Examples
@@ -281,7 +283,7 @@ blender -b blender/underwater_scene.blend --python examples/example_print_config
 You should expect an output like this in the terminal: 
 
 <pre>Blender 5.0.1 (hash a3db93c5b259 built 2025-12-16 01:30:59)
-00:01.608  blend            | Read blend: &quot;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend&quot;
+00:01.549  blend            | Read blend: &quot;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend&quot;
 DATASET GENERATION FOR SIMULATED UNDERWATER SCENES
 
 ---RENDER PROPERTIES---
@@ -295,11 +297,12 @@ Resolution percentage: 100%
 Available cameras:
   - Approach_Retreat Camera
   - Arc Camera
-  - Approach_Diag Camera
   - Orbit Camera
+  - Horizontal_Pan Camera
+  - Top_View_Pan Camera
 Camera types: 
-  Focal lengths: 1.3mm, 2.0mm
-  Interocular distances: 0.05mm, 0.07mm
+  Focal lengths: 1.5mm, 2.5mm
+  Interocular distances: 0.04mm, 0.08mm
 Water conditions:
   - Jerlov I
   - Jerlov IA
@@ -327,15 +330,15 @@ Confirmed. Starting dataset generation
 Use Ctrl+C to cancel at anytime
 
 
-=== Camera: Approach_Retreat Camera ===
-
---- Water condition: Jerlov I (Jerlov) ---
-Enabled light: Clear Approach_Retreat Spot
-Switched water condition to Jerlov I
-Set Ocean Volume Z to: 5 m depth
-Random arrangement 1
-Set Ocean Volume Z to: 20 m depth
-Random arrangement 1</pre>
+Render with: 
+ Approach_Retreat Camera
+ Focal length: 1.5mm
+ Interocular distance: 0.04mm
+ Enabled light: Clear Approach_Retreat Spot
+ Water condition: Jerlov I (Jerlov)
+ Ocean volume depth: 5 m
+ Random arrangement: 1
+</pre>
 
 
 
@@ -355,11 +358,12 @@ From the root of this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`),
 blender -b blender/underwater_scene.blend --python examples/example_generate_dataset.py
 ```
 
-You should expect scenes that resemble this: 
+An example dataset with only 1 rendered frame per configuration is provided in `examples/eample_dataset`. You should expect scenes that resemble this: 
 
 | Clear, shallow water | Murky, shallow water |
 |----------------------|-----------------------------------------------------|
-| INSERT PHOTO | INSERT PHOTO |
+| ![alt text](tutorials/images/clear_shallow_example.jpg) | ![alt text](tutorials/images/murky_shallow_example.jpg) |
+
 
 Feel free to change the features used in the script `examples/example_generate_dataset`. This may be a useful troubleshooting step to check particular configurations without rendering a complete dataset. 
 
@@ -372,21 +376,6 @@ The following sections detail how to generate and change the dataset, with tutor
 Other useful tutorials in `tutorials/` involve rendering a single image/animation of the current Blender scene, converting rendered images into a video and checking the depth from .exr files. 
 
 As stated previously, please change the output path for the renders if this is your first time using underwater_scene.blend on a new machine. See `tutorials/exporting_blender` for further detail and instructions.
-
-
-
-
-<!-- - Configure output path
-- Generate dataset
-- Edit/Add features (table)
-- Render single/animation of current scene
-- Convert images into video (stereo/single view)
-- Check depth 
- -->
-
-
-<!-- table for how to add/edit each feature, say either in Blender or in python script  -->
-
 
 
 ### Generate the Dataset
@@ -415,46 +404,17 @@ The features used can be customised (edited, added, removed). See the next secti
 | Depth              | Blender:<br>- Z height for Ocean Volume object (offset of -25m in Blender = 0 depth) <br>Python: <br>- Change the depths used for clear and murky water in `CLEAR_Z_OFFSETS` and `MURKY_Z_OFFSETS` lists in Python                                                                                                                                     |
 | Random arrangement | Python:<br>- Change number of arrangements with `NUM_RANDOM_ARRANGEMENTS` variable in Python.<br>- Change the number of possible objects with `MIN_OBJECTS`, `MAX_OBJECTS`<br>- Collision avoidance is achieved with Axis-Aligned Bounding Box method in rand_arrange_objects() function.                                 |
 | Objects            | Follow `tutorials/importing_objects` for adding background and foreground objects.                                                                                                                                                                                                                        |
-
-
-
-
-
-
-
-<!-- ### Render Single Animation/Image -->
-
-
-<!-- emphasis single animation  -->
-
-<!-- - provide script or just set num of frames to 1 -->
-<!-- emphasis single animation  -->
-
-
-
-<!-- ### Converting Images to Video -->
-<!-- useful for visualising camera trajectories empirically/qualitatively  -->
-
-<!-- single view
-stereo 
-(different files or make option in the same file?) -->
-
-<!-- ### Check Depth 
-
-PUT INTO TUTORIAL
-
-To check that the depth .exr files are returning sensible values
-
-python3 scripts/misc/check_depth.py -->
-
-
-
 ## Notes for Improvement
 
 Currently a subset of everyday ShapeNet objects have been manually selected, imported and organised into collections that are iterated over. This object import could be automated in the dataset generation script, where objects stored in the ShapeNet folder are called on each iteration. 
 
 
 Further work could be done on determining if it is possible to change the output render path for exports from the Compositing nodes. From my research I wasn't able to find a method that worked. This would ease the onboarding process if it is possible. 
+
+
+Marine snow is currently disabled, however the object is in the Ocean Collection in the Blender scene and can be enabled for render.
+
+Underwater caustic lighting may be added. There are a number of video tutorials that can guide you through this. 
 
 ## Contact: 
 Oliver Turner (Undergraduate student at USYD, finishing Sem 2 2026)

@@ -1,10 +1,11 @@
 # Custom additions
-blender/
+# blender/
 *.blend
 *.blend1
 results/
 
-# CHANGE TO INSTEAD BE THE CONTENTS OF THE FOLDERS, NOT THE FOLDERS THEMSELVES? 
+
+
 
 # Auto-generated python .gitignore from GitHub
 

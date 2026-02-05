@@ -160,6 +160,15 @@ def get_everyday_obj(objects_collection, MAX_OBJECTS):
     return all_objects
 
 
+def get_camera(cam_obj, scene):
+    if cam_obj.type != 'CAMERA':
+        return False
+
+    scene.camera = cam_obj
+    print(f"\n=== Camera: {cam_obj.name} ===")
+    return True
+
+
 
 def enable_spotlight(light_collection, cam_obj, water_type):
     # Disable all lights first

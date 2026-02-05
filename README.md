@@ -6,7 +6,7 @@ Generation of simulated datasets containing raw RGB and depth of diverse underwa
 
 | Clear, shallow water | Clear, deep water | Murky, shallow water |
 |----------------------|------------------------|-----------------------------|
-| ![alt text](tutorials/images/arc_clear.jpg) | ![alt text](tutorials\images\clear_deep.jpg) | ![alt text](tutorials\images\murky_shallow.jpg) |
+| ![alt text](tutorials/images/arc_clear.jpg) | ![alt text](tutorials/images/clear_deep.jpg) | ![alt text](tutorials/images/murky_shallow.jpg) |
 
 
 The dataset, in terms of its size and diversity, is highly customisable. The current setup produces a dataset with 260 configurations with 5 camera paths, 4 camera paths, 8 water conditions in 1-2 depths. With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate on our tested computer. In total, there would be **7,800** raw RGB and depth pairs. 

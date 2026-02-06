@@ -69,7 +69,7 @@ Test that exporting is working correctly by rendering a single frame - run `rend
 Then check the terminal to read directly where renders are outputted to. Whenever Blender renders it prints the output file's location to the terminal that opened Blender. You should expect a message similar to this in terminal, with file paths for your machine: 
 
 <pre>Blender 5.0.1 (hash a3db93c5b259 built 2025-12-16 01:30:59)
-00:01.618  blend            | Read blend: &quot;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend&quot;
+00:01.618  blend            | Read blend: &quot;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender_scene/underwater_scene.blend&quot;
 00:41.476  render           | Saved: &apos;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/results/blender_output/temp/raw depth0001_L.exr&apos;
 00:41.493  render           | Saved: &apos;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/results/blender_output/temp/raw depth0001_R.exr&apos;
 00:41.529  render           | Saved: &apos;results/blender_output/temp/0001_L.jpg&apos;

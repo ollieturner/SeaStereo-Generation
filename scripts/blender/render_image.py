@@ -3,19 +3,7 @@
 
 
 # --- RUN INSTRUCTIONS ---
-# Note the file paths are still hardcoded
-
-# blender -b /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend \
-#         --python /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/scripts/blender/render_image.py
-
-# From inside folder with script: 
-# blender -b /home/otur3695/Documents/Blender/<file_name>.blend --python render_image.py
-
-
-# --- TO DO ---
-# - Make run command smoother
-# --> Build in files to run, not as input arguments
-# - customise output file path - make a prompt? (can iterate)
+# blender -b blender_scene/underwater_scene.blend --python scripts/blender/render_image.py
 
 
 import bpy

@@ -5,31 +5,7 @@
 
 # --- RUN INSTRUCTIONS ---
 # From root of repo
-# blender -b blender/underwater_scene.blend --python scripts/blender/render_animation.py
-
-
-# Note the file paths are still hardcoded
-
-# From anywhere:
-# blender -b /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend \
-#         --python /home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/scripts/blender/render_animation.py
-
-# From inside folder with script: 
-# blender -b /home/otur3695/Documents/Blender/underwater_scene.blend --python render_animation.py
-
-
-
-# --- TO DO ---
-# Make run command smoother
-# --> Build in files to run, not as input arguments
-# Customise output file path - (can iterate over folders)
-# Make it create the save folder, if it does exist already
-# Change to save into results folder here and in blender, then move files to desired position 
-# Delete the global render 
-# ** See test_render_animation.py for current progress on these improvements
-
-
-# Add in changing resolution 
+# blender -b blender_scene/underwater_scene.blend --python scripts/blender/render_animation.py
 
 # Import libraries
 import bpy

@@ -1,6 +1,3 @@
-# TO VERIFY 
-
-
 # Save rendered animation images as a video
 # For stereo view - saves left and right images 
 # Does raw image, raw depth and normalised depth 
@@ -9,10 +6,6 @@
 # Run file from VS Code
 # Check FPS and PASSES for desired settings 
 
-# --- TO DO ---
-# Automate to iterate over different folder names
-# Customise output filepath 
-
 
 # Import libraries
 import cv2
@@ -20,36 +13,24 @@ import glob
 import os
 
 # Define source of images 
-# base_folder = "/home/otur3695/Documents/Blender/results/blender_output"
-base_folder = "demos/sample_dataset/orbit_jerlov5_20m_arr3"
-
+base_folder = "results/blender_output/temp"
 
 # Make video folder to save into 
 video_folder = os.path.join(base_folder, "videos")
 os.makedirs(video_folder, exist_ok=True)
 
 # Define desired FPS 
-fps = 5 # 24
+fps = 5 
 
 # Define mp4 format 
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")
 
 # Define files to process (raw image, raw depth and normalised depth)
-# key = name for output video
-# pattern = prefix before _L / _R in filename from Blender output
 PASSES = {
     "raw_image": {
         "L": "raw image*_L.jpg",
         "R": "raw image*_R.jpg",
-    } # ,
-    # "raw_depth": {
-    #     "L": "raw depth*_L.tif",
-    #     "R": "raw depth*_L.tif",
-    # },
-    # "normalized_depth": {
-    #     "L": "normalized depth*_L.tif",
-    #     "R": "normalized depth*_R.tif",
-    # },
+    } 
 }
 
 # Process each pass

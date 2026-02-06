@@ -2,7 +2,7 @@
 # See beginning of script for customisable features and render properties
 
 # ------ RUN INSTRUCTIONS ------
-# blender -b blender/underwater_scene.blend --python scripts/blender/generate_dataset.py
+# blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py
 
 
 # Import libraries 

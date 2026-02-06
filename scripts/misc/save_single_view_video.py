@@ -1,6 +1,3 @@
-# TO VERIFY 
-
-
 # Save rendered animation images as a video 
 # For a single view (not stereo)
 # Does left view of raw image
@@ -16,8 +13,6 @@ import glob
 import os
 
 # Define source of images 
-# base_folder = "/home/otur3695/Documents/Blender/results/orbit 240 frames"
-# base_folder = "/home/otur3695/Documents/Blender/results/orbit 240 frames/delete_global"
 base_folder = "results/blender_output/temp"
 
 # Make video folder to save into 
@@ -25,7 +20,7 @@ video_folder = os.path.join(base_folder, "single view videos")
 os.makedirs(video_folder, exist_ok=True)
 
 # Define desired FPS 
-fps = 48
+fps = 5
 
 # Define mp4 format 
 fourcc = cv2.VideoWriter_fourcc(*"mp4v")

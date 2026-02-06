@@ -1,8 +1,10 @@
-# Custom additions
-# blender/
-*.blend
-*.blend1
-results/
+# Custom additions:
+
+# Keep folders but don't track their contents
+results/*
+blender_scene/*
+!results/.gitkeep
+!blender_scene/.gitkeep
 
 
 

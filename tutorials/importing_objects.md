@@ -20,7 +20,7 @@ The scene is organised into the following collections:
 | Background Objects | Seafloor objects in background e.g. rocks, seaweed, shipwreck           |
 | Everyday Objects   | Objects of interest in foreground and randomly positioned               |
 
-This setup is followed in the .blend file and in the `blender/` folder. 
+This setup is followed in the .blend file and in the `blender_scene/` folder. 
 
 
 ### Third-Party Sites
@@ -38,7 +38,7 @@ This setup is followed in the .blend file and in the `blender/` folder.
 
 First download the desired object from the sources provided above or from your own research. Make sure the object comes with files to describe its material e.g. normals, colour. The ShapeNet everyday objects are `.obj` files and come with the material files. 
 
-To keep things organised, move the download into the `blender/` folder, then the particular subcategory e.g. Everyday Objects.
+To keep things organised, move the download into the `blender_scene/` folder, then the particular subcategory e.g. Everyday Objects.
 
 After downloading, the object can be imported from the File menu, as shown below.
 

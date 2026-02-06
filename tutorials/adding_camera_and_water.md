@@ -32,7 +32,7 @@ The water conditions are distinguished by their volume coefficients, which contr
 
 #### Cameras and Lights
 
-The current setup organises cameras and spotlights into two collections - Cameras and Camera Lights. Open `blender/underwater_scene.blend` to view this. 
+The current setup organises cameras and spotlights into two collections - Cameras and Camera Lights. Open `blender_scene/underwater_scene.blend` to view this. 
 
 Take note of the naming convention - follow this same pattern so the automated dataset generation scripts can correctly identify the cameras and the corresponding lights. Use the same name to pair spotlights with the correct camera.
 

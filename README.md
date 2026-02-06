@@ -68,33 +68,6 @@ References
 - ShapeNet -->
 
 
-<!-- 
-- Add in Hugging Face (link to)
--- Explain git repo organisation earlier?
-- Test scripts
-- Script to run after installation to test its working (have to change output export path first?)
-- Turn terminal commands into scripts
-- Sample dataset
-- Reference tutorials and recommended
-- scripts configured to read .blend file on my machine, you will need to change the paths to wherever you store the .blend scene after downloading from Hugging Face 
-- Also need to change the export paths in files 
-
-CURRENT SETUP: 
-Getting Started 
-- Pulling Repo
-- Blender Installation 
-- Learning Blender
-Repo Organisation 
-Dataset Characteristics
-- Outputs
-- Features
-- Size, Time
-How to Use
-- (Tutorials)
-Known Issues
-Notes for Improvement
-Contact -->
-
 
 ## Table of Contents
 
@@ -145,7 +118,7 @@ First, if you don't have a Hugging Face account already, make one [here](https:/
 
 Download the Hugging Face dataset from [here](https://huggingface.co/datasets/owt3/Simulated-Underwater-Depth-Dataset-Generation/tree/main). 
 
-Then move each of the folders into your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, renders call the Blender file in the `blender/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub. 
+Then move each of the folders into `blender_scene/` in your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, renders call the Blender file in the `blender_scene/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub. 
 
 The expected organisation of the local repository is explained in [Repository Organisation](#repository-organisation).
 
@@ -218,19 +191,10 @@ Once you begin rendering, either from the automated Python scripts or directly f
 
 ## Repository Organisation 
 
-<!-- | Folder          | Description                                                                                                     |
-|-----------------|-----------------------------------------------------------------------------------------------------------------|
-| blender         | Blender files for underwater environments, including scene, objects and sand (from HF)                          |
-| demos           | Results to demonstrate scripts, with sub-folders for each script                                                |
-| example_sample_dataset | An example sample dataset to compare with (from HF)                                                      |
-| results         | Empty folder to that Blender scene outputs into. Its contents are not tracked to avoid pushing large datasets   |
-| scripts/blender | Python scripts to run automated Blender processes e.g. generating dataset, rendering images                     |
-| scripts/misc    | Other Python scripts e.g. saving a video from rendered images                                                   |
-| tutorials       | Guided tutorials on using the Blender scene file e.g. adding cameras and objects                                | -->
 
 | Folder          | Description                                                                                                     |
 |-----------------|-----------------------------------------------------------------------------------------------------------------|
-| blender         | Blender files for underwater environments, including scene, objects and sand (from HF)                          |
+| blender_scene         | Blender files for underwater environments, including scene, objects and sand (from HF)                          |
 | examples        | Contains example scripts in scripts/ and expected results to compare with in results/                           |
 | results         | Empty folder to that Blender scene outputs into. Its contents are not tracked to avoid pushing large datasets   |
 | scripts/blender | Python scripts to run automated Blender processes e.g. generating dataset, rendering images                     |
@@ -277,13 +241,13 @@ Each configuration will be printed to the terminal, with no images or folders ge
 From the root of this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`), run `examples/example_print_configs.py` with: 
 
 ```
-blender -b blender/underwater_scene.blend --python examples/example_print_configs.py
+blender -b blender_scene/underwater_scene.blend --python examples/example_print_configs.py
 ```
 
 You should expect an output like this in the terminal: 
 
 <pre>Blender 5.0.1 (hash a3db93c5b259 built 2025-12-16 01:30:59)
-00:01.549  blend            | Read blend: &quot;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender/underwater_scene.blend&quot;
+00:01.549  blend            | Read blend: &quot;/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/blender_scene/underwater_scene.blend&quot;
 DATASET GENERATION FOR SIMULATED UNDERWATER SCENES
 
 ---RENDER PROPERTIES---
@@ -355,7 +319,7 @@ If this is your first time rendering underwater_scene.blend then you need to **c
 From the root of this repo (`cd Simulated-Underwater-Depth-Dataset-Generation`), run `scripts/examples/example_generate_dataset.py` with: 
 
 ```
-blender -b blender/underwater_scene.blend --python examples/example_generate_dataset.py
+blender -b blender_scene/underwater_scene.blend --python examples/example_generate_dataset.py
 ```
 
 An example dataset with only 1 rendered frame per configuration is provided in `examples/eample_dataset`. You should expect scenes that resemble this: 
@@ -385,7 +349,7 @@ Run the following to generate the dataset. This process is predicted to use 14.3
 ```
 cd Simulated-Underwater-Depth-Dataset-Generation
 
-blender -b blender/underwater_scene.blend --python scripts/blender/generate_dataset.py
+blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py
 ```
 
 The number of frames per configuration is 30. This may be changed in `blender/generate_dataset.py` with the `frame_end` variable. 

@@ -12,18 +12,12 @@
 # --- RUN INSTRUCTIONS --- 
 # python3 scripts/misc/check_depth.py from the repo root 
 
-# --- TO DO ---
-# Replace input files 
-
 
 # Import libraries
 import cv2
 import numpy as np
 
 # Define input/output image filepaths
-# raw_depth_path = "demos/check_depth/input/raw depth0001_L.exr"                    # Raw EXR depth for depth value
-# raw_image_path = "demos/check_depth/input/raw image0001_L.jpg"                    # Raw image for visualising query pixel
-# output_image = "demos/check_depth/output/raw_image_with_marker.jpg"               # Output image name 
 raw_depth_path = "examples/check_depth_io/input/raw depth_L.exr"                    # Raw EXR depth for depth value
 raw_image_path = "examples/check_depth_io/input/raw image_L.jpg"                    # Raw image for visualising query pixel
 output_image = "examples/check_depth_io/output/raw_image_with_marker.jpg"               # Output image name 
@@ -55,7 +49,6 @@ print(f"Depth at pixel {check_pixel} from raw EXR depth: {depth_value}m")
 
 # Load in raw image (for visualisation)
 raw_image = cv2.imread(raw_image_path)
-# raw_image = cv2.cvtColor(cv2.imread(raw_image_path), cv2.COLOR_BGR2RGB)
 
 # Draw circle and fill
 dot_radius = 6

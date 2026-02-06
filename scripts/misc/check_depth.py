@@ -22,8 +22,6 @@ raw_depth_path = "examples/check_depth_io/input/raw depth_L.exr"                
 raw_image_path = "examples/check_depth_io/input/raw image_L.jpg"                    # Raw image for visualising query pixel
 output_image = "examples/check_depth_io/output/raw_image_with_marker.jpg"               # Output image name 
 
-
-
 # Define query pixel (x, y)
 check_pixel = (505, 430)                       # Front left middle pole
 # check_pixel = (450, 215)                       # Back left middle pole

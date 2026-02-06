@@ -118,7 +118,7 @@ First, if you don't have a Hugging Face account already, make one [here](https:/
 
 Download the Hugging Face dataset from [here](https://huggingface.co/datasets/owt3/Simulated-Underwater-Depth-Dataset-Generation/tree/main). 
 
-Then move each of the folders into `blender_scene/` in your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, renders call the Blender file in the `blender_scene/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub. 
+Move the ShapeNet object folders (e.g. bench_*, bin_*) into a ShapeNet_objects subfolder inside `everyday objects/`. Then move each of the folders into `blender_scene/` in your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, renders call the Blender file in the `blender_scene/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub. 
 
 The expected organisation of the local repository is explained in [Repository Organisation](#repository-organisation).
 

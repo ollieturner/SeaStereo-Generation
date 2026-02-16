@@ -57,7 +57,9 @@ Check the repository's contents with `ls` when inside.
 
 ### Downloading the Hugging Face Dataset
 
-The Blender scene, background objects and everyday/foreground objects are stored in a Hugging Face dataset due to storage requirements.
+The Blender scene is stored in a Hugging Face dataset due to storage requirements. The scene has had [Pack Resources](https://docs.blender.org/manual/en/latest/files/blend/packed_data.html) applied, so all external files (textures, images) are included - the scene can be downloaded and used as is. 
+
+The background objects are also stored in the Hugging face dataset if you like to inspect the individual objects used. But as mentioned, the scene does not draw on these specific files, they are already included in the scene. 
 
 First, if you don't have a Hugging Face account already, make one [here](https://huggingface.co/).
 
@@ -66,13 +68,6 @@ Download the Hugging Face dataset from [here](https://huggingface.co/datasets/ow
 <!-- EDIT/CHECK THIS -->
 
 After downloading, move everything into the `blender_scene/` in your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, renders call the Blender file in the `blender_scene/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub.
-
-
-<!-- Move the ShapeNet object folders (e.g. bench_*, bin_*) into a ShapeNet_objects subfolder inside `everyday objects/`. Then move each of the folders into `blender_scene/` in your local version of this repository. This ensures the referenced relative paths operate correctly - in particular, renders call the Blender file in the `blender_scene/` folder. The .gitignore will leave these folders untracked, as they are too big to push to GitHub.
-
-The expected organisation of the local repository is explained in [Repository Organisation](#repository-organisation). -->
-
-
 
 
 

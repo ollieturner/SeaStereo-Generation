@@ -1,7 +1,3 @@
-
-
-
-
 # TUTORIAL
 
 ## Render a Single Animation or Frame

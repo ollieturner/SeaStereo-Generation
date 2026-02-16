@@ -50,7 +50,7 @@ To move the object into a collection in the Outliner (top right panel), select t
 
 Also, sometimes the faces of the ShapeNet objects are jagged and zebra pattern-like. Right click the object and 'Auto-Smooth' it. 
 
-
+Ensure 'Automatically Pack Resources' is ticked under 'File --> External Data' to ensure imported objects are completely integrated and the scene is independent of external file paths. This makes it easier to transfer the scene to other users. 
 
 
 

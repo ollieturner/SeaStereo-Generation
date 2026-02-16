@@ -1,7 +1,3 @@
-
-
-
-
 # TUTORIAL
 
 ## Check Depth

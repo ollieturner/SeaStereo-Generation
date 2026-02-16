@@ -9,7 +9,7 @@ This tutorial explains the Blender render setup and changes the location the ren
 The .blend file has two render output channels - the standard, global render and the custom render from the Compositing Nodes. 
 
 
-The global render is an image of the scene. Its settings are in Output Properties in the Control Panel tab (bottom right). This is where raw RGB image is generated.
+The global render is an image of the scene. Its settings are in Output Properties in the Control Panel tab (bottom right). This is where the raw RGB image is generated.
 
 
 The Compositing node diagram allows for more control over the renders, including different file types, the data included and the number of renders. Compositing in Blender is intended for intermediary, or differently layered renders. This is where raw depth is generated.
@@ -17,7 +17,7 @@ The Compositing node diagram allows for more control over the renders, including
 
 ### Initial Configuration
 
-The underwater_scene.blend file is currently configured to save the raw RGB and depth renders into `results/blender_output/temp/`.
+The `underwater_scene.blend` file is currently configured to save the raw RGB and depth renders into `results/blender_output/temp/`.
 
 The global render path is overriden in Python but the Compositing Node render is not. As a result, running the scripts and .blend files for the first time on a new machine will result in errors. The global renders will save correctly into the relative `results/blender_output/temp/` folder in the repo, but the Compositing Node will attempt to render to: `/home/otur3695/Documents/Simulated-Underwater-Depth-Dataset-Generation/results/blender_output/temp/`.
 

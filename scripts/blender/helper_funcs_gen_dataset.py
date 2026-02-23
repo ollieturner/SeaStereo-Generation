@@ -80,10 +80,20 @@ def print_dataset_msg(camera_collection, FOCAL_LENGTHS, INTEROCULAR_DIST, WATER_
             if obj.type == 'CAMERA':
                 print(f"  - {obj.name}")
 
-    # List available camera types 
-    print("Camera types: ")
-    print(f"  Focal lengths: {FOCAL_LENGTHS[0]}mm, {FOCAL_LENGTHS[1]}mm")
-    print(f"  Interocular distances: {INTEROCULAR_DIST[0]}mm, {INTEROCULAR_DIST[1]}mm")
+    # List available camera types
+    print("Camera types:")
+    print("  Focal lengths:", end=" ")
+    for i, f in enumerate(FOCAL_LENGTHS):
+        if i > 0:
+            print(", ", end="")
+        print(f"{f}mm", end="")
+    print() #  newline
+    print("  Interocular distances:", end=" ")
+    for i, d in enumerate(INTEROCULAR_DIST):
+        if i > 0:
+            print(", ", end="")
+        print(f"{d}mm", end="")
+    print()
 
     # List available water conditions
     print("Water conditions:")

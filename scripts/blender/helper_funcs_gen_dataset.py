@@ -68,7 +68,7 @@ def blender_z_to_real_depth(z_blender):
     return z_blender + 25
 
 # Print the dataset configurations to terminal at the start of dataset generation
-def print_dataset_msg(camera_collection, FOCAL_LENGTHS, INTEROCULAR_DIST, WATER_CONDITIONS, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS, MIN_OBJECTS, MAX_OBJECTS, NUM_RANDOM_ARRANGEMENTS, GRID_MIN, GRID_MAX):
+def print_dataset_msg(camera_collection, FOCAL_LENGTHS, INTEROCULAR_DIST, WATER_CONDITIONS, CLEAR_DEEP_RANGE, CLEAR_SHALLOW_RANGE, MURKY_RANGE, MIN_OBJECTS, MAX_OBJECTS, NUM_RANDOM_ARRANGEMENTS, GRID_MIN, GRID_MAX):
     print("---DATASET FEATURES---")
 
     # List available cameras
@@ -100,12 +100,16 @@ def print_dataset_msg(camera_collection, FOCAL_LENGTHS, INTEROCULAR_DIST, WATER_
     for _, label, _ in WATER_CONDITIONS:
         print(f"  - {label}")
 
-    # List available depths (in real-world, with blender offset applied)
-    print("Depths (real-world):")
-    clear_depths = [blender_z_to_real_depth(z) for z in CLEAR_Z_OFFSETS]
-    murky_depths = [blender_z_to_real_depth(z) for z in MURKY_Z_OFFSETS]
-    print(f"  Clear water depths: {clear_depths} m")
-    print(f"  Murky water depths: {murky_depths} m")
+    # List available depths (in real-world meters) based on the defined ranges
+    print("Depth ranges:")
+    print(f"  Clear water deep: {blender_z_to_real_depth(CLEAR_DEEP_RANGE[0]):.1f} m "
+        f"to {blender_z_to_real_depth(CLEAR_DEEP_RANGE[1]):.1f} m")
+    print(f"  Clear water shallow: {blender_z_to_real_depth(CLEAR_SHALLOW_RANGE[0]):.1f} m "
+        f"to {blender_z_to_real_depth(CLEAR_SHALLOW_RANGE[1]):.1f} m")
+    print(f"  Murky water: {blender_z_to_real_depth(MURKY_RANGE[0]):.1f} m "
+        f"to {blender_z_to_real_depth(MURKY_RANGE[1]):.1f} m")
+
+
 
     # List object configuration properties 
     print("Object placement:")
@@ -186,17 +190,22 @@ def enable_spotlight(light_collection, cam_obj, water_type):
     # Disable all lights first
     for l in light_collection.objects:
         l.hide_render = True
+    
+    if water_type == "Clearish":
+        water_type_name = "Clear"
+    else:
+        water_type_name = water_type
 
     # Construct spotlight name
     base_spot_name = cam_obj.name.replace("Camera", "Spot")
-    spotlight_name = f"{water_type} {base_spot_name}"
+    spotlight_name = f"{water_type_name} {base_spot_name}"
     spotlight = light_collection.objects.get(spotlight_name)
 
     # Enable correct spotlight
     if spotlight:
         spotlight.hide_render = False
     else:
-        print(f"Warning: no matching {water_type} spotlight found for {cam_obj.name}")
+        print(f"Warning: no matching {water_type_name} spotlight found for {cam_obj.name}")
 
     return spotlight
 
@@ -227,7 +236,7 @@ def switch_water_condition(nodes, frame_name, vol, links, label):
 
 # Set the depth type (which list of depths to choose from), based on whether the water is clear or murky
 def choose_depth_type(water_type, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS):
-    if water_type == "Clear":
+    if water_type == "Clear" or water_type == "Clearish":
         z_offsets = CLEAR_Z_OFFSETS
     else:
         z_offsets = MURKY_Z_OFFSETS
@@ -353,14 +362,7 @@ def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_
 
 
 
-
-
-
-
 ################################################
-
-
-
 def precompute_shapenet_paths(root_dir, output_txt):
     obj_paths = []
 
@@ -502,3 +504,28 @@ def choose_depth_type_new(water_type, clear_deep_range, clear_shallow_range, mur
         ]
     
     return z_offsets
+def apply_opt_render(water_type, scene):
+    cycles = scene.cycles
+    if water_type == "Clear":
+        cycles.samples = 128
+        cycles.use_adaptive_sampling = True
+        cycles.adaptive_threshold = 0.1
+        scene.cycles.max_bounces = 10
+    elif water_type == "Clearish":
+        cycles.samples = 256
+        cycles.use_adaptive_sampling = True
+        cycles.adaptive_threshold = 0.01
+        scene.cycles.max_bounces = 12
+    elif water_type == "Murky":
+        cycles.samples = 512
+        cycles.use_adaptive_sampling = True
+        cycles.adaptive_threshold = 0.01
+        scene.cycles.max_bounces = 12
+    else:
+        print("INVALID WATER")
+
+    print(f"Applied settings for {water_type}:")
+    print(f"  Samples: {cycles.samples}")
+    print(f"  Adaptive Sampling: {cycles.use_adaptive_sampling}")
+    print(f"  Adaptive Threshold: {cycles.adaptive_threshold}")
+    print(f"  Max Bounces: {scene.cycles.max_bounces}\n")

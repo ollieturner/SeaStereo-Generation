@@ -342,3 +342,163 @@ def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_
 
     # Print confirmation
     print(f"Saved outputs to: {cam_water_z_folder}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################################################
+
+
+
+def precompute_shapenet_paths(root_dir, output_txt):
+    obj_paths = []
+
+    for root, dirs, files in os.walk(root_dir):
+        if "model_normalized.obj" in files:
+            obj_paths.append(os.path.join(root, "model_normalized.obj"))
+
+    with open(output_txt, "w") as f:
+        for path in obj_paths:
+            f.write(path + "\n")
+
+    print(f"Saved {len(obj_paths)} paths to {output_txt}")
+
+def load_shapenet_paths(txt_file):
+    with open(txt_file, "r") as f:
+        paths = [line.strip() for line in f if line.strip()]
+    return paths
+
+
+
+
+def import_and_try_place(
+    all_paths,
+    target_count,
+    GRID_MIN,
+    GRID_MAX,
+    MAX_TRIES=100,
+    scale_factor=1.5,
+    z_height=-1
+):
+    placed_objects = []
+    depsgraph = bpy.context.evaluated_depsgraph_get()
+
+    attempts = 0
+    max_total_attempts = target_count * 10  # safety limit
+
+    while len(placed_objects) < target_count and attempts < max_total_attempts:
+        attempts += 1
+
+        path = random.choice(all_paths)
+
+        # Import
+        bpy.ops.wm.obj_import(filepath=path)
+
+        # # Import with glb - faster?
+        # bpy.ops.import_scene.gltf(filepath=path)
+
+        # new_objs = bpy.context.selected_objects
+        # obj = new_objs[0]  # assume single main mesh
+
+        new_objs = bpy.context.selected_objects
+
+        if len(new_objs) > 1:
+            bpy.context.view_layer.objects.active = new_objs[0]
+            for o in new_objs:
+                o.select_set(True)
+            bpy.ops.object.join()
+
+        obj = bpy.context.active_object
+
+
+        # Scale
+        obj.scale = (scale_factor, scale_factor, scale_factor)
+        bpy.context.view_layer.objects.active = obj
+        bpy.ops.object.transform_apply(scale=True)
+
+        obj.location.z = z_height
+
+        placed = False
+
+        # Tag
+        obj["is_shapenet"] = True
+
+        # Apply Auto Smooth
+        obj.data.use_auto_smooth = True
+        # obj.data.auto_smooth_angle = 1.0472  # 60 degrees in radians
+
+        for _ in range(MAX_TRIES):
+
+            obj.rotation_euler.z = random.uniform(0, 2 * math.pi)
+            eval_obj = obj.evaluated_get(depsgraph)
+
+            bbox = [eval_obj.matrix_world @ mathutils.Vector(corner)
+                    for corner in eval_obj.bound_box]
+
+            x_coords = [v.x for v in bbox]
+            y_coords = [v.y for v in bbox]
+
+            width = max(x_coords) - min(x_coords)
+            depth = max(y_coords) - min(y_coords)
+
+            x = random.uniform(GRID_MIN + width/2, GRID_MAX - width/2)
+            y = random.uniform(GRID_MIN + depth/2, GRID_MAX - depth/2)
+
+            overlap = False
+            for px, py, pw, pd in placed_objects:
+                if abs(x - px)*2 < (width + pw) and abs(y - py)*2 < (depth + pd):
+                    overlap = True
+                    break
+
+            if not overlap:
+                obj.location.x = x
+                obj.location.y = y
+                placed_objects.append((x, y, width, depth))
+                placed = True
+                break
+
+        if not placed:
+            bpy.data.objects.remove(obj, do_unlink=True)
+
+    return len(placed_objects)
+
+
+
+def delete_all_imported_objects():
+    bpy.ops.object.select_all(action='DESELECT')
+    for obj in bpy.context.scene.objects:
+        if obj.get("is_shapenet"):
+            obj.select_set(True)
+    bpy.ops.object.delete()
+
+# def delete_all_imported_objects():
+#     bpy.ops.object.select_all(action='DESELECT')
+#     for obj in bpy.context.scene.objects:
+#         if obj.name.startswith("model_normalized"):  # or better: tag them
+#             obj.select_set(True)
+#     bpy.ops.object.delete()
+
+
+
+
+def choose_depth_type_new(water_type, clear_deep_range, clear_shallow_range, murky_range):
+    if water_type == "Murky":
+        z_offsets = [random.uniform(*murky_range)]
+    else:
+        z_offsets = [
+            random.uniform(*clear_deep_range),
+            random.uniform(*clear_shallow_range)
+        ]
+    
+    return z_offsets

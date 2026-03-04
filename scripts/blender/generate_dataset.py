@@ -5,7 +5,7 @@
 
 # ------ RUN INSTRUCTIONS ------
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py
-# blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset_final.py > output.log 2>&1
+# blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py > output.log 2>&1
 # OLD: nohup blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_timing_data.py > output.log 2>&1 &
 
 # Import libraries 
@@ -53,12 +53,12 @@ WATER_CONDITIONS = [
 
 # Define depths for Ocean Volume
 # Note: Offset of -25m in Blender = 0m depth e.g. -20m = 5m deep, -5m = 20m deep
-MURKY_SHALLOW_RANGE = (-23, -22.5)  
+MURKY_SHALLOW_RANGE = (-23.3, -22.7)  
 CLEAR_DEEP_RANGE = (-10, -5)   
 CLEAR_SHALLOW_RANGE = (-20, -15)  
 
 # Number of random arrangements environment configuration
-NUM_RANDOM_ARRANGEMENTS = 1 # 3 
+NUM_RANDOM_ARRANGEMENTS = 3 
 MIN_OBJECTS, MAX_OBJECTS = 3, 5
 
 # 3x3m grid bounds for Everyday Objects in foreground

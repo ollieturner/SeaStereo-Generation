@@ -6,6 +6,7 @@
 # --- RUN INSTRUCTIONS ---
 # From root of repo
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/render_animation.py
+# blender -b blender_scene/objects.blend --python scripts/blender/render_animation.py
 
 # Import libraries
 import bpy
@@ -22,7 +23,7 @@ scene.render.filepath = output_path
 
 # Set frame range
 scene.frame_start = 1
-scene.frame_end = 30
+scene.frame_end = 1 # 30
 
 # Render animation
 bpy.ops.render.render(animation=True)

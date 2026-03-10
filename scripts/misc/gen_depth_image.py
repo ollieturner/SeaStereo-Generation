@@ -84,9 +84,8 @@ def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, m
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # ---- Explicit input files ----
-left_exr = "disparity_results/arc_jerlovIII_f25_i008_shallow/raw depth0022_L.exr"
-
-left_output = os.path.join(script_dir, "disparity_results/arc_jerlovIII_f25_i008_shallow/left_disparity_vis.png")
+left_exr = "disparity_results/arc_jerlovIB_f25_i004_shallow/raw depth0020_L.exr"
+left_output = os.path.join(script_dir, "disparity_results/arc_jerlovIB_f25_i004_shallow/left_disparity_vis.png")
 
 # ---- Blender camera parameters ----
 f_mm = 2.5                 # Blender focal length in mm
@@ -95,7 +94,7 @@ render_width_px = 640       # image width in pixels
 
 # Convert focal length to pixels
 f_pixels = f_mm * (render_width_px / sensor_width_mm)
-baseline_m = 0.08
+baseline_m = 0.04
 
 
 # ---- Process ----

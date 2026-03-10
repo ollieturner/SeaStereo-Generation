@@ -11,7 +11,8 @@ import os
 # Clearish deep --> Jerlov IB, Orbit
 # Clear-murky shallow --> Jerlov IC, Arc
 # Clear-murky deep --> Jerlov II, Orbit
-# Murky --> Jerlov III, Arc
+# Murky --> Jerlov 3C, app
+# Murky --> Jerlov III, arc
 
 # Manually pick photo
 # Copy across relative path 
@@ -83,18 +84,18 @@ def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, m
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # ---- Explicit input files ----
-left_exr = "disparity_results/app_jerlov3C_f25_i008_shallow/raw depth0012_L.exr"
+left_exr = "disparity_results/arc_jerlovIII_f25_i008_shallow/raw depth0022_L.exr"
 
-left_output = os.path.join(script_dir, "disparity_results/app_jerlov3C_f25_i008_shallow/left_disparity_vis.png")
+left_output = os.path.join(script_dir, "disparity_results/arc_jerlovIII_f25_i008_shallow/left_disparity_vis.png")
 
 # ---- Blender camera parameters ----
-f_mm = 1.5                 # Blender focal length in mm
+f_mm = 2.5                 # Blender focal length in mm
 sensor_width_mm = 6.7      # Blender camera sensor width in mm
 render_width_px = 640       # image width in pixels
 
 # Convert focal length to pixels
 f_pixels = f_mm * (render_width_px / sensor_width_mm)
-baseline_m = 0.04
+baseline_m = 0.08
 
 
 # ---- Process ----

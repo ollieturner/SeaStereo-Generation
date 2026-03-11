@@ -34,7 +34,7 @@ import os
 # ]
 
 
-# python3 -m venv venve
+# python3 -m venv venve (only first time)
 # source venv/bin/activate
 # pip install OpenEXR matplotlib
 # python3 gen_depth-image.py
@@ -53,34 +53,38 @@ def read_exr_channel(exr_path, channel='R'):
     ch.shape = (height, width)
     return ch
 
-def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, max_depth=100.0, epsilon=1e-6):
-    """Convert depth EXR to disparity visualization with gamma scaling and Spectral_r colormap."""
-    # Read depth
+
+def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, max_depth=1.95):
+    """Convert depth EXR to disparity visualization. Depth > max_depth → black."""
+
     depth = read_exr_channel(input_path, channel='R')
-    depth = np.nan_to_num(depth, nan=0.0, posinf=0.0, neginf=0.0)
+    # depth = np.nan_to_num(depth, nan=0.0, posinf=0.0, neginf=0.0)
+    depth = np.nan_to_num(depth, nan=np.inf, posinf=np.inf, neginf=np.inf)
 
-    # # Clip all values above max_depth
-    # depth_clip = np.clip(depth, 0, max_depth)
-    depth_clip = depth
+    # Debugging
+    # print("min depth:", depth.min())
+    # print("max depth:", depth.max())
+    # print("pixels < 1.95:", np.sum(depth < 1.95))
 
-    # Convert depth to disparity using camera parameters
-    # disparity = (f_pixels * baseline_m) / (depth_clip + epsilon)
-    disparity = (f_pixels * baseline_m) / (depth_clip)
+    # Mask far pixels
+    mask = depth > max_depth
 
+    # Avoid divide by zero
+    depth[depth <= 0] = 1e-6
 
-    # Normalize disparity to [0,1] for visualization
-    vmin = disparity.min()
-    vmax = np.percentile(disparity, 100)  # can use percentile if you want to clip outliers
-    disparity_clip = np.clip(disparity, vmin, vmax)
+    # Disparity
+    disparity = (f_pixels * baseline_m) / depth
 
-    if vmax > vmin:
-        disp_norm = (disparity_clip - vmin) / (vmax - vmin)
-        disp_vis = np.sqrt(disp_norm)  # gamma = 0.5
-    else:
-        disp_vis = np.zeros_like(disparity_clip)
+    # Set masked pixels to black
+    disparity[mask] = np.nan
+    cmap = plt.cm.Spectral_r.copy()
+    cmap.set_bad(color='black')
 
-    # Save image with Spectral_r colormap (red=close, blue=far)
-    plt.imsave(output_path, disp_vis, cmap='Spectral_r')
+    # Save directly
+    plt.imsave(output_path, disparity, cmap=cmap) # 'Spectral_r')
+    plt.imsave(output_path, disparity, cmap=cmap,
+           vmin=0, vmax=np.nanmax(disparity))
+
 
 # ---- Paths ----
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -98,19 +102,23 @@ render_width_px = 640       # image width in pixels
 f_pixels = f_mm * (render_width_px / sensor_width_mm)
 baseline_m = 0.04
 
-
-# Disparity output is in pixels
-# Remove this normalisation? Do without
-# Also mask purple to black 
-
-# Double check whether depth is m or mm and convert accordingly 
-
 # ---- Process ----
 process_depth_exr_disparity(left_exr, left_output, f_pixels, baseline_m)
 # process_depth_exr_disparity(right_exr, right_output, f_pixels, baseline_m)
 
 print("Done! Disparity visualizations saved as:", left_output) # , right_output)
 
+
+
+# Redo diagram photo
+# Redo all photos there
+# Pick out 6 more photos
+# Convert all to pdfs
+# Upload into table
+# Push all files
+# Switch to windows and update diagram 
+
+# Check blender for headless test run 
 
 
 

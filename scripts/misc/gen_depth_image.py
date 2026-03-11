@@ -64,7 +64,9 @@ def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, m
     depth_clip = depth
 
     # Convert depth to disparity using camera parameters
-    disparity = (f_pixels * baseline_m) / (depth_clip + epsilon)
+    # disparity = (f_pixels * baseline_m) / (depth_clip + epsilon)
+    disparity = (f_pixels * baseline_m) / (depth_clip)
+
 
     # Normalize disparity to [0,1] for visualization
     vmin = disparity.min()
@@ -96,6 +98,12 @@ render_width_px = 640       # image width in pixels
 f_pixels = f_mm * (render_width_px / sensor_width_mm)
 baseline_m = 0.04
 
+
+# Disparity output is in pixels
+# Remove this normalisation? Do without
+# Also mask purple to black 
+
+# Double check whether depth is m or mm and convert accordingly 
 
 # ---- Process ----
 process_depth_exr_disparity(left_exr, left_output, f_pixels, baseline_m)

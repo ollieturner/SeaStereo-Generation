@@ -4,7 +4,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+# TO DO:
+# Pick out 6 more photos
+# Redo all photos there
+# Redo diagram photo
+# Convert all to pdfs
 
+# Upload into table
+# Push all files
+# Switch to windows and update diagram 
+
+# Check blender for headless test run 
+
+
+# OLD:
 # Clear shallow --> Jerlov IA, Arc camera
 # Clear deep --> Jerlov I, Orbit camera
 # Clearish shallow --> Jerlov IB, Approach
@@ -14,12 +27,15 @@ import os
 # Murky --> Jerlov 3C, app
 # Murky --> Jerlov III, arc
 
+
+# PROCESS:
 # Manually pick photo
 # Copy across relative path 
 # Change focal parameters 
 # Save result into disparity results, in indexed folder
 # Move photo into this folder too 
 
+# KEY:
 # WATER_CONDITIONS = [ 
 #     ("Jerlov",     "Jerlov I",   "Clear"),
 #     ("Jerlov.001", "Jerlov IA",  "Clear"),
@@ -34,6 +50,7 @@ import os
 # ]
 
 
+# Run instructions
 # python3 -m venv venve (only first time)
 # source venv/bin/activate
 # pip install OpenEXR matplotlib
@@ -90,11 +107,12 @@ def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, m
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # ---- Explicit input files ----
-left_exr = "disparity_results/arc_jerlovIB_f25_i004_shallow/raw depth0020_L.exr"
-left_output = os.path.join(script_dir, "disparity_results/arc_jerlovIB_f25_i004_shallow/left_disparity_vis.png")
+left_exr = "for_diagram/orig_raw depth0001_R.exr"
+left_output = os.path.join(script_dir, "for_diagram/right_disparity_vis.png")
+
 
 # ---- Blender camera parameters ----
-f_mm = 2.5                 # Blender focal length in mm
+f_mm = 1.5                 # Blender focal length in mm
 sensor_width_mm = 6.7      # Blender camera sensor width in mm
 render_width_px = 640       # image width in pixels
 
@@ -106,19 +124,7 @@ baseline_m = 0.04
 process_depth_exr_disparity(left_exr, left_output, f_pixels, baseline_m)
 # process_depth_exr_disparity(right_exr, right_output, f_pixels, baseline_m)
 
-print("Done! Disparity visualizations saved as:", left_output) # , right_output)
-
-
-
-# Redo diagram photo
-# Redo all photos there
-# Pick out 6 more photos
-# Convert all to pdfs
-# Upload into table
-# Push all files
-# Switch to windows and update diagram 
-
-# Check blender for headless test run 
+print("Done! Disparity visualizations saved as:", left_output)
 
 
 
@@ -134,150 +140,136 @@ print("Done! Disparity visualizations saved as:", left_output) # , right_output)
 
 
 
-
-
-
-
-
-
-
-
-
-
-# # OLD
-
+# # Generated to iterate over images in folder
+# import os
+# import re
+# import glob
+# import numpy as np
 # import OpenEXR
 # import Imath
-# import numpy as np
 # import matplotlib.pyplot as plt
-# import os
+# from PIL import Image
+
 
 # def read_exr_channel(exr_path, channel='R'):
-#     """Read a single channel from an EXR file as a float32 numpy array."""
+#     """Read a single channel from an EXR file as float32 numpy array."""
 #     exr_file = OpenEXR.InputFile(exr_path)
 #     header = exr_file.header()
 #     dw = header['dataWindow']
+
 #     width = dw.max.x - dw.min.x + 1
 #     height = dw.max.y - dw.min.y + 1
 
 #     pt = Imath.PixelType(Imath.PixelType.FLOAT)
 #     ch_str = exr_file.channel(channel, pt)
+
 #     ch = np.frombuffer(ch_str, dtype=np.float32)
 #     ch.shape = (height, width)
+
 #     return ch
 
-# # WORKING
-# # def process_depth_exr(input_path, output_path):
-# #     depth = read_exr_channel(input_path, channel='R')
-# #     depth = np.nan_to_num(depth, nan=0.0, posinf=0.0, neginf=0.0)
 
-# #     # Clip the farthest 5% of values for visualization
-# #     vmin = depth.min()
-# #     vmax = np.percentile(depth, 58.7) # 80 ) # 95)  # farthest 5% clipped
+# def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, max_depth=1.95):
+#     """Convert depth EXR to disparity visualization."""
 
-# #     depth_clip = np.clip(depth, vmin, vmax)
-
-# #     # Normalize and apply gamma scaling
-# #     if vmax > vmin:
-# #         depth_norm = (depth_clip - vmin) / (vmax - vmin)
-# #         depth_vis = np.sqrt(depth_norm)  # gamma=0.5
-# #     else:
-# #         depth_vis = np.zeros_like(depth_clip)
-
-# #     plt.imsave(output_path, depth_vis, cmap='jet')
-
-# # 100m, 35
-# def process_depth_exr(input_path, output_path, max_depth=35.0):
 #     depth = read_exr_channel(input_path, channel='R')
-#     depth = np.nan_to_num(depth, nan=0.0, posinf=0.0, neginf=0.0)
 
-#     # Clip all values above max_depth
-#     depth_clip = np.clip(depth, 0, max_depth)
+#     depth = np.nan_to_num(depth, nan=np.inf, posinf=np.inf, neginf=np.inf)
 
-#     # Normalize 0 → max_depth
-#     depth_norm = depth_clip / max_depth
+#     mask = depth > max_depth
 
-#     # Apply gamma scaling to enhance mid-range depth
-#     depth_vis = np.sqrt(depth_norm)  # gamma = 0.5
+#     depth[depth <= 0] = 1e-6
 
-#     plt.imsave(output_path, depth_vis, cmap='jet')
+#     disparity = (f_pixels * baseline_m) / depth
+
+#     disparity[mask] = np.nan
+
+#     cmap = plt.cm.Spectral_r.copy()
+#     cmap.set_bad(color='black')
+
+#     plt.imsave(output_path, disparity, cmap=cmap,
+#                vmin=0, vmax=np.nanmax(disparity))
 
 
-# # ---- Paths ----
+# # Camera constants
+# sensor_width_mm = 6.7
+# render_width_px = 640
+
+# # Folder root
 # script_dir = os.path.dirname(os.path.abspath(__file__))
-
-# # Auto-detect left/right EXR files in the folder
-# left_exr = None
-# right_exr = None
-# for f in os.listdir(script_dir):
-#     if f.endswith('_L.exr'):
-#         left_exr = os.path.join(script_dir, f)
-#     elif f.endswith('_R.exr'):
-#         right_exr = os.path.join(script_dir, f)
-
-# if left_exr is None or right_exr is None:
-#     raise FileNotFoundError("Could not find left or right EXR files in the script directory.")
-
-# left_output = os.path.join(script_dir, "left_depth_vis.png")
-# right_output = os.path.join(script_dir, "right_depth_vis.png")
-
-# # ---- Process ----
-# process_depth_exr(left_exr, left_output)
-# process_depth_exr(right_exr, right_output)
-
-# print("Done! Visualizations saved as:", left_output, right_output)
+# results_root = os.path.join(script_dir, "disparity_results")
+# pdf_output_root = os.path.join(script_dir, "addit_data_samples_new")
+# os.makedirs(pdf_output_root, exist_ok=True)
 
 
+# # Iterate folders
+# for folder in os.listdir(results_root):
 
+#     folder_path = os.path.join(results_root, folder)
 
+#     if not os.path.isdir(folder_path):
+#         continue
 
-# # import cv2
-# # import numpy as np
-# # import matplotlib.pyplot as plt
+#     print("Processing:", folder)
 
-# # def process_depth_exr(input_path, output_path):
-# #     # Load EXR with full float precision
-# #     depth = cv2.imread(input_path, cv2.IMREAD_UNCHANGED)
+#     # -------- Extract parameters from folder name --------
 
-# #     if depth is None:
-# #         raise ValueError(f"Could not load file: {input_path}")
+#     f_match = re.search(r'f(\d+)', folder)
+#     i_match = re.search(r'i(\d+)', folder)
 
-# #     # If multi-channel, take first channel
-# #     if len(depth.shape) == 3:
-# #         depth = depth[:, :, 0]
+#     if not f_match or not i_match:
+#         print("Skipping (cannot parse params)")
+#         continue
 
-# #     depth = depth.astype(np.float32)
+#     f_code = f_match.group(1)
+#     i_code = i_match.group(1)
 
-# #     # Replace NaN/Inf
-# #     depth = np.nan_to_num(depth, nan=0.0, posinf=0.0, neginf=0.0)
+#     # f25 -> 2.5mm, f15 -> 1.5mm
+#     f_mm = float(f_code) / 10
 
-# #     # Clip extreme values (robust visualization)
-# #     vmin = np.percentile(depth, 1)
-# #     vmax = np.percentile(depth, 99)
+#     # i004 -> 0.04m
+#     baseline_m = float(i_code) / 100
 
-# #     if vmax > vmin:
-# #         depth = np.clip(depth, vmin, vmax)
-# #         depth = (depth - vmin) / (vmax - vmin)
-# #     else:
-# #         depth = np.zeros_like(depth)
+#     # Convert focal length to pixels
+#     f_pixels = f_mm * (render_width_px / sensor_width_mm)
 
-# #     # Save image (red-blue colormap)
-# #     plt.imsave(output_path, depth, cmap='seismic')
+#     # -------- Find left EXR --------
 
-# # # ---- Paths ----
-# # # left_exr_path = 'raw_depth0001_L.exr'
-# # # right_exr_path = 'raw_depth0001_R.exr'
+#     exr_files = [f for f in os.listdir(folder_path) if f.endswith("_L.exr")]
 
-# # left_output_path = "left_depth_vis.png"
-# # right_output_path = "right_depth_vis.png"
+#     if len(exr_files) == 0:
+#         print("No left EXR found")
+#         continue
 
-# # import os
-# # script_dir = os.path.dirname(os.path.abspath(__file__))
-# # # print(os.listdir(script_dir))
+#     left_exr = os.path.join(folder_path, exr_files[0])
 
-# # left_exr_path = os.path.join(script_dir, "raw_depth0001_L.exr")
-# # right_exr_path = os.path.join(script_dir, "raw_depth0001_R.exr")
+#     output_path = os.path.join(folder_path, "left_disparity_vis.png")
 
-# # # ---- Process independently ----
-# # process_depth_exr(left_exr_path, left_output_path)
-# # process_depth_exr(right_exr_path, right_output_path)
+#     process_depth_exr_disparity(left_exr, output_path, f_pixels, baseline_m)
+
+#     print("Saved:", output_path)
+
+#     # -------- Convert images to PDF --------
+#     folder_name = os.path.basename(folder_path)
+#     pdf_output_folder = os.path.join(pdf_output_root, folder_name)
+#     os.makedirs(pdf_output_folder, exist_ok=True)
+
+#     patterns = ["*_L.jpg", "*_R.jpg", "*_disparity_vis.png"]
+#     files_to_convert = []
+#     for pattern in patterns:
+#         files_to_convert.extend(glob.glob(os.path.join(folder_path, pattern)))
+
+#     for input_path in files_to_convert:
+#         filename = os.path.basename(input_path)
+#         output_filename = os.path.splitext(filename)[0] + ".pdf"
+#         output_path = os.path.join(pdf_output_folder, output_filename)
+
+#         img = Image.open(input_path)
+#         if img.mode != "RGB":
+#             img = img.convert("RGB")
+
+#         img.save(output_path)
+#         print(f"Saved PDF: {output_path}")
+
+# print("All disparity images and PDFs generated.")
+

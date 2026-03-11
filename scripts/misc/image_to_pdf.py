@@ -20,7 +20,7 @@ input_folder = "scripts/misc/disparity_results/arc_jerlovIB_f25_i004_shallow"
 
 # ---- Output folder ----
 folder_name = os.path.basename(input_folder)  # e.g., app_jerlov_IB_f25_i004_shallow
-output_folder = os.path.join("addit_data_samples_new", folder_name)
+output_folder = os.path.join("addit_data_samples", folder_name)
 os.makedirs(output_folder, exist_ok=True)  # create folder if it doesn't exist
 
 # ---- Find all matching files ----

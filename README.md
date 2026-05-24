@@ -14,7 +14,10 @@ The dataset, in terms of its size and diversity, is **customisable**. The curren
 
 The repository and Blender scenes were developed and rendered using Blender 5.0.1 on Ubuntu 24.04, with two NVIDIA GeForce RTX 3080 Ti GPUs.
 
-
+**Note: updates still to be made to README following further work, including:**
+- Update dataset characteristics to current setup
+- Shorten (e.g. move example instructions into examples folder)
+- Revise 'Notes for Improvement'
 
 ## Table of Contents
 

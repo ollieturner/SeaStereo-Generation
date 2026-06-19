@@ -117,9 +117,7 @@ def print_dataset_msg(camera_collection, FOCAL_LENGTHS, INTEROCULAR_DIST, WATER_
 
 # Ask the user for confirmation before proceeding with dataset generation
 def get_confirmation():
-    print("\nWith the current settings, this will take ~10 days, 2 hours to render on Ubuntu 24.04, ")
-    print("with two NVIDIA GeForce RTX 3080 Ti GPUs, and use ~14.34 GB of storage.")
-    print("Use Ctrl+C to cancel at any time.\n")
+    print("\nUse Ctrl+C to cancel at any time.\n")
 
     # Uncomment if desired
     # # Confirmation prompt

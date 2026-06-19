@@ -30,7 +30,7 @@ import os
 # python3 -m venv venve (only first time)
 # source venv/bin/activate
 # pip install OpenEXR matplotlib
-# python3 gen_depth-image.py
+# python3 gen_depth_image.py
 
 def read_exr_channel(exr_path, channel='R'):
     """Read a single channel from an EXR file as a float32 numpy array."""
@@ -47,7 +47,7 @@ def read_exr_channel(exr_path, channel='R'):
     return ch
 
 
-def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, max_depth=1.95):
+def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, max_depth=500): #1.95):
     """Convert depth EXR to disparity visualization. Depth > max_depth → black."""
 
     depth = read_exr_channel(input_path, channel='R')
@@ -83,8 +83,11 @@ def process_depth_exr_disparity(input_path, output_path, f_pixels, baseline_m, m
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # ---- Explicit input files ----
-left_exr = "scripts/misc/disparity_results/app_jerlov_IB_f25_i004_shallow/raw depth0010_R.exr"
-left_output = os.path.join(script_dir, "disparity_results/app_jerlov_IB_f25_i004_shallow/right_disparity_vis.png")
+# left_exr = "scripts/misc/disparity_results/app_jerlov_IB_f25_i004_shallow/raw depth0010_R.exr"
+# left_output = os.path.join(script_dir, "disparity_results/app_jerlov_IB_f25_i004_shallow/right_disparity_vis.png")
+
+left_exr = "scripts/misc/raw depth0001_L.exr"
+left_output = os.path.join(script_dir, "disparity_results/left_disparity_vis2.png")
 
 # ---- Blender camera parameters ----
 f_mm = 1.5                 # Blender focal length in mm

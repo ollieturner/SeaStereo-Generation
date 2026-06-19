@@ -4,8 +4,9 @@
 # Currently running without confirmation to allow running in background from SSH 
 
 # ------ RUN INSTRUCTIONS ------
+# Run generate dataset script with blender in background
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py
-# Run with terminal output saved to file:
+# Run above but with terminal output saved to file:
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py > output.log 2>&1
 
 # Import libraries 
@@ -25,7 +26,7 @@ import helper_funcs_gen_dataset as func
 RENDER = True
 BASE_SAVE_PATH = "results/blender_output/"
 frame_start = 1
-frame_end = 40
+frame_end = 1 # 40
 res_x = 640
 res_y = 480
 res_pct = 100
@@ -125,7 +126,7 @@ for cam_obj in camera_collection.objects:
                     # Apply optimised render settings
                     func.apply_opt_render(water_type, scene)
 
-                    # Render the courrent configuration
+                    # Render the current configuration
                     if RENDER:
                         func.render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, z, arr_idx, MURKY_SHALLOW_RANGE, CLEAR_DEEP_RANGE, CLEAR_SHALLOW_RANGE, focal=focal, interoc=interoc)
 

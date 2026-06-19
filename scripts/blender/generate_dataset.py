@@ -26,7 +26,7 @@ import helper_funcs_gen_dataset as func
 RENDER = True
 BASE_SAVE_PATH = "results/blender_output/"
 frame_start = 1
-frame_end = 1 # 40
+frame_end = 40
 res_x = 640
 res_y = 480
 res_pct = 100

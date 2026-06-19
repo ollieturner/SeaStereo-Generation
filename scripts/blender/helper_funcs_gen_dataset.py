@@ -308,7 +308,7 @@ def print_render_config(cam_obj, focal, interoc, spotlight, label, frame_name, r
 
 # Render the current configuration in the according folder organisation
 def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, z_value, arr_idx, MURKY_SHALLOW_RANGE, CLEAR_DEEP_RANGE, CLEAR_SHALLOW_RANGE, focal=None, interoc=None):
- 
+
     scene.render.filepath = temp_output + "/"
     bpy.ops.render.render(animation=True)
 
@@ -333,22 +333,72 @@ def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, z_val
     )
     os.makedirs(cam_water_z_folder, exist_ok=True)
 
-    # Move the outputs from temp/ into the above created folder
-    for item in os.listdir(temp_output):
-        src = os.path.join(temp_output, item)
-        dst = os.path.join(cam_water_z_folder, item)
-        if os.path.exists(dst):
-            if os.path.isdir(dst):
-                shutil.rmtree(dst)
-            else:
-                os.remove(dst)
-        shutil.move(src, dst)
+    # Only move the desired outputs: raw depth EXRs and Image*.jpg
+    KEEP_PREFIXES = ("raw depth", "Image")
 
-    # Ensure temp/ empty and ready for next render
+    for item in os.listdir(temp_output):
+        if item.startswith(KEEP_PREFIXES):
+            src = os.path.join(temp_output, item)
+            dst = os.path.join(cam_water_z_folder, item)
+            if os.path.exists(dst):
+                if os.path.isdir(dst):
+                    shutil.rmtree(dst)
+                else:
+                    os.remove(dst)
+            shutil.move(src, dst)
+
+    # Wipe temp_output entirely (removes the unwanted 0001_L/R.jpg leftovers too) for next render
+    shutil.rmtree(temp_output)
     os.makedirs(temp_output, exist_ok=True)
 
     # Print confirmation
     print(f"Saved outputs to: {cam_water_z_folder}")
+
+
+## Old function before random issues with rendering rgb images
+# # Render the current configuration in the according folder organisation
+# def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, z_value, arr_idx, MURKY_SHALLOW_RANGE, CLEAR_DEEP_RANGE, CLEAR_SHALLOW_RANGE, focal=None, interoc=None):
+ 
+#     scene.render.filepath = temp_output + "/"
+#     bpy.ops.render.render(animation=True)
+
+#     # Determine depth category from Blender Z value
+#     if (MURKY_SHALLOW_RANGE[0] <= z_value <= MURKY_SHALLOW_RANGE[1]) or (CLEAR_SHALLOW_RANGE[0] <= z_value <= CLEAR_SHALLOW_RANGE[1]):
+#         depth_type = "Shallow"
+#     elif CLEAR_DEEP_RANGE[0] <= z_value <= CLEAR_DEEP_RANGE[1]:
+#         depth_type = "Deep"
+#     else:
+#         depth_type = "Unknown"
+
+#     depth_folder_name = f"Depth_{depth_type}{arr_idx}"
+
+#     # Folder structure: Camera / Focal / Interocular / Water / Depth
+#     cam_water_z_folder = os.path.join(
+#         BASE_SAVE_PATH,
+#         cam_obj.name,
+#         f"Focal_{focal}mm",
+#         f"Interoc_{interoc}m",
+#         frame_name,
+#         depth_folder_name
+#     )
+#     os.makedirs(cam_water_z_folder, exist_ok=True)
+
+#     # Move the outputs from temp/ into the above created folder
+#     for item in os.listdir(temp_output):
+#         src = os.path.join(temp_output, item)
+#         dst = os.path.join(cam_water_z_folder, item)
+#         if os.path.exists(dst):
+#             if os.path.isdir(dst):
+#                 shutil.rmtree(dst)
+#             else:
+#                 os.remove(dst)
+#         shutil.move(src, dst)
+
+#     # Ensure temp/ empty and ready for next render
+#     os.makedirs(temp_output, exist_ok=True)
+
+#     # Print confirmation
+#     print(f"Saved outputs to: {cam_water_z_folder}")
 
 # Choose the depth for the corresponding depth type
 def choose_depth_type(water_type, clear_deep_range, clear_shallow_range, murky_range):

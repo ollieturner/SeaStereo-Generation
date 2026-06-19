@@ -1,14 +1,4 @@
-# from PIL import Image
-
-# img_path = "scripts/misc/disparity_results/app_jerlov_IB_f25_i004_shallow/0010_L.jpg"
-
-# # Open the image
-# img = Image.open(img_path) 
-
-# # Save as PDF
-# img.save("scripts/misc/disparity_results/app_jerlov_IB_f25_i004_shallow/0010_L.pdf")
-
-
+# Convert images to pdf for report
 
 from PIL import Image
 import os
@@ -16,7 +6,6 @@ import glob
 
 # ---- Input folder ----
 input_folder = "scripts/misc/disparity_results/arc_jerlovIB_f25_i004_shallow"
-
 
 # ---- Output folder ----
 folder_name = os.path.basename(input_folder)  # e.g., app_jerlov_IB_f25_i004_shallow

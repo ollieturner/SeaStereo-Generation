@@ -5,8 +5,8 @@
 
 # ------ RUN INSTRUCTIONS ------
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py
+# Run with terminal output saved to file:
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py > output.log 2>&1
-# OLD: nohup blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_timing_data.py > output.log 2>&1 &
 
 # Import libraries 
 import os
@@ -116,7 +116,7 @@ for cam_obj in camera_collection.objects:
                     ocean_obj.location.z = z
                     real_depth = func.blender_z_to_real_depth(z)
                     
-                    # Randomly arrange the object with AABB collision avoidance
+                    # Randomly arrange objects with AABB collision avoidance
                     func.rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MIN, GRID_MAX)
                     
                     # Print out the current configuration settings to terminal
@@ -127,9 +127,7 @@ for cam_obj in camera_collection.objects:
 
                     # Render the courrent configuration
                     if RENDER:
-                        # func.render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_depth, arr_idx, focal=focal, interoc=interoc)
                         func.render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, z, arr_idx, MURKY_SHALLOW_RANGE, CLEAR_DEEP_RANGE, CLEAR_SHALLOW_RANGE, focal=focal, interoc=interoc)
-
 
 
 # Finished

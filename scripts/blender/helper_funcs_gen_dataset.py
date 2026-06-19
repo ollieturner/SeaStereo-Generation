@@ -109,8 +109,6 @@ def print_dataset_msg(camera_collection, FOCAL_LENGTHS, INTEROCULAR_DIST, WATER_
     print(f"  Murky water: {blender_z_to_real_depth(MURKY_RANGE[0]):.1f} m "
         f"to {blender_z_to_real_depth(MURKY_RANGE[1]):.1f} m")
 
-
-
     # List object configuration properties 
     print("Object placement:")
     print(f"  Objects per scene: {MIN_OBJECTS}–{MAX_OBJECTS}")
@@ -123,6 +121,7 @@ def get_confirmation():
     print("with two NVIDIA GeForce RTX 3080 Ti GPUs, and use ~14.34 GB of storage.")
     print("Use Ctrl+C to cancel at any time.\n")
 
+    # Uncomment if desired
     # # Confirmation prompt
     # while True:
     #     user_input = input("Proceed with dataset generation? (y/n): ").strip().lower()
@@ -234,16 +233,7 @@ def switch_water_condition(nodes, frame_name, vol, links, label):
     except Exception as e:
         print(f"Failed to connect nodes for {frame_name}: {e}")
 
-# # Set the depth type (which list of depths to choose from), based on whether the water is clear or murky
-# def choose_depth_type(water_type, CLEAR_Z_OFFSETS, MURKY_Z_OFFSETS):
-#     if water_type == "Clear" or water_type == "Clearish":
-#         z_offsets = CLEAR_Z_OFFSETS
-#     else:
-#         z_offsets = MURKY_Z_OFFSETS
-
-#     return z_offsets
-
-# Randomly arrange objects and use AABB collision avoidance to prevent overlap - inspired by  
+# Randomly arrange objects and use AABB collision avoidance to prevent overlap
 def rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MIN, GRID_MAX, MAX_TRIES=100):
     # Hide all objects initially
     for obj in all_objects:
@@ -318,10 +308,7 @@ def print_render_config(cam_obj, focal, interoc, spotlight, label, frame_name, r
     print(f" Ocean volume depth: {real_depth} m")
     print(f" Random arrangement: {arr_idx}")
 
-
-
 # Render the current configuration in the according folder organisation
-# def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_depth, arr_idx, focal=None, interoc=None):
 def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, z_value, arr_idx, MURKY_SHALLOW_RANGE, CLEAR_DEEP_RANGE, CLEAR_SHALLOW_RANGE, focal=None, interoc=None):
  
     scene.render.filepath = temp_output + "/"
@@ -365,184 +352,7 @@ def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, z_val
     # Print confirmation
     print(f"Saved outputs to: {cam_water_z_folder}")
 
-
-
-# # Render the current configuration in the according folder organisation
-# def render_config(scene, temp_output, BASE_SAVE_PATH, cam_obj, frame_name, real_depth, arr_idx, focal=None, interoc=None):
-#     scene.render.filepath = temp_output + "/"
-#     bpy.ops.render.render(animation=True)
-
-#     # Folder structure: Camera / Focal / Interocular / Water / Depth / Arrangement
-#     cam_water_z_folder = os.path.join(
-#         BASE_SAVE_PATH,
-#         cam_obj.name,
-#         f"Focal_{focal}mm",
-#         f"Interoc_{interoc}m",
-#         frame_name,
-#         f"Depth_{real_depth}m",
-#         f"Arrangement_{arr_idx}"
-#     )
-#     os.makedirs(cam_water_z_folder, exist_ok=True)
-
-#     # Move the outputs from temp/ into the above created folder
-#     for item in os.listdir(temp_output):
-#         src = os.path.join(temp_output, item)
-#         dst = os.path.join(cam_water_z_folder, item)
-#         if os.path.exists(dst):
-#             if os.path.isdir(dst):
-#                 shutil.rmtree(dst)
-#             else:
-#                 os.remove(dst)
-#         shutil.move(src, dst)
-
-#     # Ensure temp/ empty and ready for next render
-#     os.makedirs(temp_output, exist_ok=True)
-
-#     # Print confirmation
-#     print(f"Saved outputs to: {cam_water_z_folder}")
-
-
-
-
-
-
-
-
-
-
-
-# ################################################
-# def precompute_shapenet_paths(root_dir, output_txt):
-#     obj_paths = []
-
-#     for root, dirs, files in os.walk(root_dir):
-#         if "model_normalized.obj" in files:
-#             obj_paths.append(os.path.join(root, "model_normalized.obj"))
-
-#     with open(output_txt, "w") as f:
-#         for path in obj_paths:
-#             f.write(path + "\n")
-
-#     print(f"Saved {len(obj_paths)} paths to {output_txt}")
-
-# def load_shapenet_paths(txt_file):
-#     with open(txt_file, "r") as f:
-#         paths = [line.strip() for line in f if line.strip()]
-#     return paths
-
-
-
-
-# def import_and_try_place(
-#     all_paths,
-#     target_count,
-#     GRID_MIN,
-#     GRID_MAX,
-#     MAX_TRIES=100,
-#     scale_factor=1.5,
-#     z_height=-1
-# ):
-#     placed_objects = []
-#     depsgraph = bpy.context.evaluated_depsgraph_get()
-
-#     attempts = 0
-#     max_total_attempts = target_count * 10  # safety limit
-
-#     while len(placed_objects) < target_count and attempts < max_total_attempts:
-#         attempts += 1
-
-#         path = random.choice(all_paths)
-
-#         # Import
-#         bpy.ops.wm.obj_import(filepath=path)
-
-#         # # Import with glb - faster?
-#         # bpy.ops.import_scene.gltf(filepath=path)
-
-#         # new_objs = bpy.context.selected_objects
-#         # obj = new_objs[0]  # assume single main mesh
-
-#         new_objs = bpy.context.selected_objects
-
-#         if len(new_objs) > 1:
-#             bpy.context.view_layer.objects.active = new_objs[0]
-#             for o in new_objs:
-#                 o.select_set(True)
-#             bpy.ops.object.join()
-
-#         obj = bpy.context.active_object
-
-
-#         # Scale
-#         obj.scale = (scale_factor, scale_factor, scale_factor)
-#         bpy.context.view_layer.objects.active = obj
-#         bpy.ops.object.transform_apply(scale=True)
-
-#         obj.location.z = z_height
-
-#         placed = False
-
-#         # Tag
-#         obj["is_shapenet"] = True
-
-#         # Apply Auto Smooth
-#         obj.data.use_auto_smooth = True
-#         # obj.data.auto_smooth_angle = 1.0472  # 60 degrees in radians
-
-#         for _ in range(MAX_TRIES):
-
-#             obj.rotation_euler.z = random.uniform(0, 2 * math.pi)
-#             eval_obj = obj.evaluated_get(depsgraph)
-
-#             bbox = [eval_obj.matrix_world @ mathutils.Vector(corner)
-#                     for corner in eval_obj.bound_box]
-
-#             x_coords = [v.x for v in bbox]
-#             y_coords = [v.y for v in bbox]
-
-#             width = max(x_coords) - min(x_coords)
-#             depth = max(y_coords) - min(y_coords)
-
-#             x = random.uniform(GRID_MIN + width/2, GRID_MAX - width/2)
-#             y = random.uniform(GRID_MIN + depth/2, GRID_MAX - depth/2)
-
-#             overlap = False
-#             for px, py, pw, pd in placed_objects:
-#                 if abs(x - px)*2 < (width + pw) and abs(y - py)*2 < (depth + pd):
-#                     overlap = True
-#                     break
-
-#             if not overlap:
-#                 obj.location.x = x
-#                 obj.location.y = y
-#                 placed_objects.append((x, y, width, depth))
-#                 placed = True
-#                 break
-
-#         if not placed:
-#             bpy.data.objects.remove(obj, do_unlink=True)
-
-#     return len(placed_objects)
-
-
-
-# def delete_all_imported_objects():
-#     bpy.ops.object.select_all(action='DESELECT')
-#     for obj in bpy.context.scene.objects:
-#         if obj.get("is_shapenet"):
-#             obj.select_set(True)
-#     bpy.ops.object.delete()
-
-# # def delete_all_imported_objects():
-# #     bpy.ops.object.select_all(action='DESELECT')
-# #     for obj in bpy.context.scene.objects:
-# #         if obj.name.startswith("model_normalized"):  # or better: tag them
-# #             obj.select_set(True)
-# #     bpy.ops.object.delete()
-
-
-
-
+# Choose the depth for the corresponding depth type
 def choose_depth_type(water_type, clear_deep_range, clear_shallow_range, murky_range):
     if water_type == "Murky":
         z_offsets = [random.uniform(*murky_range)]
@@ -554,8 +364,7 @@ def choose_depth_type(water_type, clear_deep_range, clear_shallow_range, murky_r
     
     return z_offsets
 
-
-
+# Apply optimised rendering settings
 def apply_opt_render(water_type, scene):
     cycles = scene.cycles
     if water_type == "Clear":

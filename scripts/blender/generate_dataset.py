@@ -120,8 +120,8 @@ for cam_obj in camera_collection.objects:
                     # Randomly arrange objects with AABB collision avoidance
                     func.rand_arrange_objects(arr_idx, all_objects, MIN_OBJECTS, MAX_OBJECTS, GRID_MIN, GRID_MAX)
                     
-                    # Print out the current configuration settings to terminal
-                    func.print_render_config(cam_obj, focal, interoc, spotlight, label, frame_name, real_depth, arr_idx)
+                    # # Print out the current configuration settings to terminal
+                    # func.print_render_config(cam_obj, focal, interoc, spotlight, label, frame_name, real_depth, arr_idx)
 
                     # Apply optimised render settings
                     func.apply_opt_render(water_type, scene)

@@ -1,5 +1,8 @@
 # Custom additions:
 
+# Ignore archive
+archive/*
+
 # Keep folders but don't track their contents
 results/*
 blender_scene/*

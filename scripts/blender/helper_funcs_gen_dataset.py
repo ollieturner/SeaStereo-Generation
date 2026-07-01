@@ -17,6 +17,9 @@ def apply_render_props(BASE_SAVE_PATH, frame_start, frame_end, res_x, res_y, res
     # Define the scene
     scene = bpy.context.scene
 
+    # Disable persistent data
+    scene.render.use_persistent_data = False
+
     # Define the number of frames to render per configuration 
     scene.frame_start = frame_start 
     scene.frame_end = frame_end 

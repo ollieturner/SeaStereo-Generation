@@ -8,6 +8,7 @@
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py
 # Run above but with terminal output saved to file:
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py > output.log 2>&1
+# nohup blender -b blender_scene/underwater_scene.blend --python scripts/blender/generate_dataset.py > output.log 2>&1 &
 
 # Import libraries 
 import os

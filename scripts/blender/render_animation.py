@@ -1,11 +1,7 @@
-# Render a series images for one animation 
-# No iterating over configurations/changing settings - renders scene as it is in Blender file 
-# Saves renders into folder: /results/blender_output/
-
-
 # --- RUN INSTRUCTIONS ---
 # From root of repo
 # blender -b blender_scene/underwater_scene.blend --python scripts/blender/render_animation.py
+# blender -b blender_scene/objects.blend --python scripts/blender/render_animation.py
 
 # Import libraries
 import bpy
@@ -22,7 +18,7 @@ scene.render.filepath = output_path
 
 # Set frame range
 scene.frame_start = 1
-scene.frame_end = 30
+scene.frame_end = 1 # 30
 
 # Render animation
 bpy.ops.render.render(animation=True)

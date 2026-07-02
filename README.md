@@ -1,7 +1,8 @@
 # Simulated-Underwater-Depth-Dataset-Generation
 
-Generation of simulated datasets containing raw RGB and depth images of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Datasets will be used for training a neural network to recognise depth from an image, which is the basis for underwater grasping.
+Generation of SeaStereo dataset containing raw RGB and depth images of diverse underwater scenes with a stereo camera in Blender. Scenes include realistic seafloor environments and submerged everyday objects. Dataset will be used for training a neural network to recognise depth from an image, which is the basis for underwater grasping.
 
+The rendered datset and Blender scene is stored on Hugging face [here](https://huggingface.co/datasets/SeaStereo-USYD/SeaStereo-Dataset/tree/main)
 
 
 
@@ -10,14 +11,16 @@ Generation of simulated datasets containing raw RGB and depth images of diverse 
 |  ![alt text](tutorials/images/arc_clear.jpg) |  ![alt text](tutorials/images/clear_deep.jpg) |  ![alt text](tutorials/images/murky_shallow.jpg) |
 
 
-The dataset, in terms of its size and diversity, is **customisable**. The current setup produces a dataset with 260 configurations with 5 camera paths, 4 camera types, 8 water conditions in 1-2 depths. With 30 rendered frames for each configuration, the complete dataset will be **14.34 GB** and take **10 days, 2 hours** to generate on our tested computer. In total, there would be **7,800** raw RGB and depth pairs.
+The dataset, in terms of its size and diversity, is **customisable**. The current setup produces a dataset with 1176 configurations with 7 camera paths, 4 camera types, 7 water conditions, 2 depths and 3 random arranegments of objects. With 40 rendered frames for each configuration, there will be **47,040** raw RGB and depth pairs. SeaStereo is **XXX GB**.
 
-The repository and Blender scenes were developed and rendered using Blender 5.0.1 on Ubuntu 24.04, with two NVIDIA GeForce RTX 3080 Ti GPUs.
+The repository and Blender scenes were developed and rendered using Blender 5.0.1 on Ubuntu 24.04, with two NVIDIA GeForce RTX 3080 Ti GPUs. It took **XXX** to generate on our computer. 
 
-**Note: updates still to be made to README following further work, including:**
-- Update dataset characteristics to current setup
-- Shorten (e.g. move example instructions into examples folder)
-- Revise 'Notes for Improvement'
+
+## To Do
+- Dataset size
+- Dataset render time
+- Up to table of contents
+
 
 ## Table of Contents
 

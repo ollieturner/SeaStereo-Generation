@@ -57,8 +57,9 @@ This is the organisation of the water conditions into clear and murky. Intuitive
 | Clear        | Jerlov.004   | Jerlov II   | Clear |
 | Clear        | Jerlov.003   | Jerlov IC   | Slightly murky but still clear |
 | Murky        | Jerlov.002   | Jerlov III  | Murky |
-| Murky        | Jerlov.007   | Jerlov 5C   | Murky |
 | Murky        | Jerlov.006   | Jerlov 3C   | Murky |
+
+<!-- | Murky        | Jerlov.007   | Jerlov 5C   | Murky | -->
 
 
 A couple of water conditions (Jerlov 7C and Jerlov 9C) are not used at all since they too murky (they are still present in the Shader Editor). The murky water conditions are only used for shallow depths (<5m), as it becomes too dark any further. Clear water conditions are used at all depths. 
